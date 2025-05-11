@@ -151,8 +151,14 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc \
- /home/pablo/Projects/engine/dependencies/GLFW/glfw3.h \
+ /home/pablo/Projects/engine/dependencies/glad/glad.h \
+ /home/pablo/Projects/engine/dependencies/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-least.h /usr/include/GL/gl.h \
- /usr/include/GL/glext.h /usr/include/KHR/khrplatform.h
+ /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
+ /home/pablo/Projects/engine/dependencies/GLFW/glfw3.h \
+ /usr/include/c++/13/fstream /usr/include/c++/13/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
+ /usr/include/c++/13/bits/fstream.tcc /usr/include/c++/13/sstream \
+ /usr/include/c++/13/bits/sstream.tcc

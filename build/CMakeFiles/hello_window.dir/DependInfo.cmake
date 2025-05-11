@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/pablo/Projects/engine/src/glad.c" "CMakeFiles/hello_window.dir/src/glad.c.o" "gcc" "CMakeFiles/hello_window.dir/src/glad.c.o.d"
   "/home/pablo/Projects/engine/src/main.cpp" "CMakeFiles/hello_window.dir/src/main.cpp.o" "gcc" "CMakeFiles/hello_window.dir/src/main.cpp.o.d"
   )
 
