@@ -1,10 +1,13 @@
-#include "Vector.h"
 #include "config.h"
+#include <iostream>
+#include <cmath>
+#include <ctime>
 
 using namespace std;
 
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
+
 int main(){
     GLFWwindow *window;
     
@@ -12,7 +15,7 @@ int main(){
         std::cout<<"GLFW could not start";
     }
     
-    window = glfwCreateWindow(640, 480, "MyWindow", NULL, NULL);
+    window = glfwCreateWindow(640, 640, "MyWindow", NULL, NULL);
     glfwMakeContextCurrent(window);
 
     if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
@@ -23,16 +26,60 @@ int main(){
     glClearColor(0.25f, 0.5f, 0.75f, 1.0f);
 
     unsigned int shader = make_shader("../src/shaders/vertex.txt", "../src/shaders/fragment.txt");
+        
+    float vertices[] = {
+            1.0f, 0.0f, 0.0f,   1.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f,   0.0f, 1.0f, 0.0f,
+            0.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f,
+
+            1.0f, 0.0f, 0.0f,   1.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f,   0.0f, 1.0f, 0.0f,
+            0.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f
+        };
+
+    unsigned int VBO, VAO;
+
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glBindVertexArray(0);
 
     while(!glfwWindowShouldClose(window)){
         glfwPollEvents();
+        
+        float time = glfwGetTime();
 
+        vertices[3] = sin(time*0.5);
+        vertices[10] = sin(time*3);
+        vertices[17] = sin(time);
+        vertices[0] = sin(time);
+        vertices[1] = cos(time);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+        
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(shader);
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
         glfwSwapBuffers(window);
+
     }
     
     glDeleteProgram(shader);
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+
     glfwTerminate();
     return 0;
 }
@@ -88,15 +135,11 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type){
     int success;
     glGetShaderiv(shaderModule, GL_COMPILE_STATUS, &success);
 
-    if(!success){
+    if (!success) {
         char error[1024];
         glGetShaderInfoLog(shaderModule, 1024, NULL, error);
-        std::cout<<glGetShaderInfoLog<<std::endl;
+        std::cout << "Shader compilation error (" << filepath << "):\n" << error << std::endl;
     }
+
     return shaderModule;
 }
-
-
-
-
-

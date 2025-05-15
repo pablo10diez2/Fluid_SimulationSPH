@@ -74,7 +74,6 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
   /home/pablo/Projects/engine/dependencies/GLFW/glfw3.h \
   /home/pablo/Projects/engine/dependencies/KHR/khrplatform.h \
   /home/pablo/Projects/engine/dependencies/glad/glad.h \
-  /home/pablo/Projects/engine/src/Vector.h \
   /home/pablo/Projects/engine/src/config.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
@@ -122,6 +121,7 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/refwrap.h \
   /usr/include/c++/13/bits/requires_hosted.h \
+  /usr/include/c++/13/bits/specfun.h \
   /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/stl_algobase.h \
@@ -145,9 +145,11 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
   /usr/include/c++/13/clocale \
+  /usr/include/c++/13/cmath \
   /usr/include/c++/13/cstddef \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
+  /usr/include/c++/13/ctime \
   /usr/include/c++/13/cwchar \
   /usr/include/c++/13/cwctype \
   /usr/include/c++/13/debug/assertions.h \
@@ -164,6 +166,7 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
+  /usr/include/c++/13/limits \
   /usr/include/c++/13/new \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/pstl_config.h \
@@ -173,6 +176,18 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
   /usr/include/c++/13/string \
   /usr/include/c++/13/string_view \
   /usr/include/c++/13/system_error \
+  /usr/include/c++/13/tr1/bessel_function.tcc \
+  /usr/include/c++/13/tr1/beta_function.tcc \
+  /usr/include/c++/13/tr1/ell_integral.tcc \
+  /usr/include/c++/13/tr1/exp_integral.tcc \
+  /usr/include/c++/13/tr1/gamma.tcc \
+  /usr/include/c++/13/tr1/hypergeometric.tcc \
+  /usr/include/c++/13/tr1/legendre_function.tcc \
+  /usr/include/c++/13/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/13/tr1/poly_hermite.tcc \
+  /usr/include/c++/13/tr1/poly_laguerre.tcc \
+  /usr/include/c++/13/tr1/riemann_zeta.tcc \
+  /usr/include/c++/13/tr1/special_function_util.h \
   /usr/include/c++/13/tuple \
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
@@ -184,6 +199,7 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
   /usr/include/features.h \
   /usr/include/linux/errno.h \
   /usr/include/locale.h \
+  /usr/include/math.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
   /usr/include/stdc-predef.h \
@@ -202,9 +218,18 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
   /usr/include/x86_64-linux-gnu/bits/errno.h \
   /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
   /usr/include/x86_64-linux-gnu/bits/floatn.h \
+  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
   /usr/include/x86_64-linux-gnu/bits/locale.h \
   /usr/include/x86_64-linux-gnu/bits/long-double.h \
+  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
@@ -281,8 +306,6 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h:
 
-/usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h:
-
 /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h:
@@ -297,8 +320,6 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 
 /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/error_t.h:
-
 /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h:
 
 /usr/include/x86_64-linux-gnu/bits/timex.h:
@@ -307,7 +328,17 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 
 /usr/include/x86_64-linux-gnu/bits/sched.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/error_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
+
 /usr/include/x86_64-linux-gnu/bits/locale.h:
+
+/usr/include/x86_64-linux-gnu/bits/iscanonical.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
 
 /usr/include/x86_64-linux-gnu/bits/cpu-set.h:
 
@@ -323,15 +354,31 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 
 /usr/include/c++/13/vector:
 
+/usr/include/c++/13/tr1/poly_hermite.tcc:
+
+/usr/include/c++/13/tr1/legendre_function.tcc:
+
 /usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
 /usr/include/c++/13/type_traits:
+
+/usr/include/c++/13/tr1/hypergeometric.tcc:
+
+/usr/include/c++/13/tr1/exp_integral.tcc:
+
+/usr/include/c++/13/tr1/ell_integral.tcc:
+
+/usr/include/c++/13/tr1/bessel_function.tcc:
 
 /usr/include/c++/13/string:
 
 /usr/include/c++/13/stdexcept:
 
 /usr/include/c++/13/sstream:
+
+/usr/include/c++/13/limits:
+
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
 
 /usr/include/c++/13/istream:
 
@@ -361,9 +408,17 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 
 /usr/include/c++/13/cwchar:
 
+/usr/include/c++/13/ctime:
+
 /usr/include/c++/13/cstdlib:
 
+/usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h:
+
+/usr/include/c++/13/cmath:
+
 /usr/include/c++/13/clocale:
+
+/usr/include/c++/13/tr1/gamma.tcc:
 
 /usr/include/c++/13/ext/atomicity.h:
 
@@ -375,6 +430,8 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 
 /usr/include/c++/13/bits/string_view.tcc:
 
+/usr/include/c++/13/tr1/riemann_zeta.tcc:
+
 /usr/include/c++/13/ostream:
 
 /usr/include/c++/13/bits/streambuf_iterator.h:
@@ -382,6 +439,8 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 /usr/include/c++/13/bits/stl_vector.h:
 
 /usr/include/c++/13/bits/stl_uninitialized.h:
+
+/usr/include/c++/13/tr1/modified_bessel_func.tcc:
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
@@ -404,6 +463,8 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
 
 /usr/include/c++/13/bits/move.h:
+
+/usr/include/c++/13/tr1/beta_function.tcc:
 
 /usr/include/c++/13/bits/utility.h:
 
@@ -439,11 +500,13 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
+/usr/include/c++/13/tr1/special_function_util.h:
+
 /usr/include/stdc-predef.h:
 
-/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
+/usr/include/c++/13/bits/specfun.h:
 
-/home/pablo/Projects/engine/src/Vector.h:
+/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
@@ -519,6 +582,8 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 
 /usr/include/c++/13/bits/stl_construct.h:
 
+/usr/include/c++/13/tr1/poly_laguerre.tcc:
+
 /usr/include/c++/13/bits/basic_string.h:
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
@@ -528,6 +593,8 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
 /usr/include/c++/13/bits/locale_classes.h:
 
@@ -585,6 +652,8 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 
 /usr/include/asm-generic/errno-base.h:
 
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+
 /usr/include/c++/13/bits/hash_bytes.h:
 
 /usr/include/c++/13/bits/basic_string.tcc:
@@ -627,7 +696,11 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 
 /usr/include/c++/13/bits/stl_pair.h:
 
+/usr/include/math.h:
+
 /usr/include/c++/13/bits/exception_defines.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
 /usr/include/c++/13/bits/localefwd.h:
 
@@ -666,6 +739,8 @@ CMakeFiles/hello_window.dir/src/main.cpp.o: /home/pablo/Projects/engine/src/main
 /usr/include/c++/13/bits/memoryfwd.h:
 
 /usr/include/c++/13/bits/ostream_insert.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
 /usr/include/c++/13/bits/uses_allocator.h:
 
