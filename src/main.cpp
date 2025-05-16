@@ -7,6 +7,7 @@ using namespace std;
 
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
+void gravity(float* vertices, int numVertices, int numParameters);
 
 int main(){
     GLFWwindow *window;
@@ -28,6 +29,8 @@ int main(){
     unsigned int shader = make_shader("../src/shaders/vertex.txt", "../src/shaders/fragment.txt");
     
     int numTriangles = 3;
+    int numParameters = 6;
+
     int verticesSpace = numTriangles * 18;
 
     float* vertices = new float[18*numTriangles] {
@@ -42,9 +45,7 @@ int main(){
             0.2f, 0.0f, 0.0f,   1.0f, 0.0f, 0.0f,
             0.0f, 0.0f, 0.0f,   0.0f, 1.0f, 0.0f,
             0.0f, 0.2f, 0.0f,   0.0f, 0.0f, 1.0f
-
         };
-
     unsigned int VBO, VAO;
 
     glGenVertexArrays(1, &VAO);
@@ -67,13 +68,8 @@ int main(){
         
         float time = glfwGetTime();
 
-        vertices[1] += -0.001f;
-        vertices[7] += -0.001f;
-        vertices[14] += -0.001f;
+        gravity(vertices, numTriangles, numParameters);
 
-        vertices[10] = sin(time*3);
-        vertices[17] = sin(time);
-        
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, verticesSpace * sizeof(float), vertices);
         
@@ -122,6 +118,16 @@ unsigned int make_shader(const std::string& vertex_filepath, const std::string& 
         return shader;
 }
 
+void gravity(float* vertices, int numVertices, int numParameters){
+    
+    for(int i = 1; i < numVertices*numParameters*3 +1; i +=6){
+        vertices[i] += -0.0013f;
+        //vertices[numParameters*i +1] += -0.0007f;
+        //vertices[numParameters*i +7] += -0.0007f;
+        //vertices[numParameters*i +13] += -0.0007f;
+    }    
+}
+
 unsigned int make_module(const std::string& filepath, unsigned int module_type){
     std::ifstream file;
     std::stringstream bufferedLines;
@@ -132,6 +138,7 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type){
     while(std::getline(file, line)){
         bufferedLines << line << "\n";
     }
+
     std::string shaderSource = bufferedLines.str();
     const char *shaderSrc = shaderSource.c_str();
     file.close();
