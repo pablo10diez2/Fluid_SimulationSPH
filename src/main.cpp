@@ -7,10 +7,11 @@ using namespace std;
 
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
-void gravity(float* vertices, int numVertices, int numParameters);
+void gravity(float* vertices, int numParameters, int numTriangles, float* speed);
+void isEdge(float* vertices, int numParameters, int numTriangles, float* speed);
 
 int main(){
-    GLFWwindow *window;
+    GLFWwindow* window;
     
     if(!glfwInit()){
         std::cout<<"GLFW could not start";
@@ -24,7 +25,7 @@ int main(){
         return -1;
     }
 
-    glClearColor(0.25f, 0.5f, 0.75f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     unsigned int shader = make_shader("../src/shaders/vertex.txt", "../src/shaders/fragment.txt");
     
@@ -34,18 +35,25 @@ int main(){
     int verticesSpace = numTriangles * 18;
 
     float* vertices = new float[18*numTriangles] {
-            0.5f, 0.0f, 0.0f,   1.0f, 0.0f, 0.0f,
-            0.0f, 0.0f, 0.0f,   0.0f, 1.0f, 0.0f,
-            0.0f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,
+            -0.5f, 0.9f, 0.0f,  1.0f, 0.0f, 0.0f,
+            -0.6f, 0.5f, 0.0f,   0.0f, 1.0f, 0.0f,
+            -0.4f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,
 
-            1.0f, 0.0f, 0.0f,   1.0f, 0.0f, 0.0f,
-            0.5f, 0.0f, 0.0f,   0.0f, 1.0f, 0.0f,
-            0.0f,  0.4f, 0.0f,   0.0f, 0.0f, 1.0f,
+            0.2f, 0.75f, 0.0f,   1.0f, 0.0f, 0.0f,
+            0.2f, 0.2f, 0.0f,   0.0f, 1.0f, 0.0f,
+            0.8f,  0.2f, 0.0f,   0.0f, 0.0f, 1.0f,
             
             0.2f, 0.0f, 0.0f,   1.0f, 0.0f, 0.0f,
             0.0f, 0.0f, 0.0f,   0.0f, 1.0f, 0.0f,
             0.0f, 0.2f, 0.0f,   0.0f, 0.0f, 1.0f
         };
+
+    float* speeds = new float[numTriangles]{
+        0.0001f,
+        0.0001f,
+        0.0001f
+    };
+
     unsigned int VBO, VAO;
 
     glGenVertexArrays(1, &VAO);
@@ -66,10 +74,12 @@ int main(){
     while(!glfwWindowShouldClose(window)){
         glfwPollEvents();
         
-        float time = glfwGetTime();
+        //float time = glfwGetTime();   
 
-        gravity(vertices, numTriangles, numParameters);
+        isEdge(vertices, numParameters, numTriangles, speeds);
 
+        gravity(vertices, numParameters, numTriangles, speeds);
+        
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, verticesSpace * sizeof(float), vertices);
         
@@ -87,6 +97,17 @@ int main(){
 
     glfwTerminate();
     return 0;
+}
+
+void isEdge(float* vertices, int numParameters, int numTriangles, float* speed){
+
+    for(int i = 0; i<numTriangles; i++){
+        for(int z = 1 + (18*i); z < (i*18)+(numParameters*3) +1; z+=6){
+            if(vertices[z]<= -1.0f){
+                speed[i] = 0.0f;
+            }
+        }
+    }
 }
 
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath){
@@ -114,18 +135,23 @@ unsigned int make_shader(const std::string& vertex_filepath, const std::string& 
         for (unsigned int shaderModule : modules){
             glDeleteShader(shaderModule);
         }
-
         return shader;
 }
 
-void gravity(float* vertices, int numVertices, int numParameters){
-    
-    for(int i = 1; i < numVertices*numParameters*3 +1; i +=6){
-        vertices[i] += -0.0013f;
-        //vertices[numParameters*i +1] += -0.0007f;
-        //vertices[numParameters*i +7] += -0.0007f;
-        //vertices[numParameters*i +13] += -0.0007f;
-    }    
+void gravity(float* vertices, int numParameters, int numTriangles, float* speed){
+    for(int i = 0; i< numTriangles; i++){
+        if(speed[i] != 0.0f){
+            float acc = 0.00001f;
+            float calculo = speed[i] -acc;
+            
+            speed[i] = calculo;
+
+            for(int z=1 +(18*i); z < (18*i) + (numParameters*3) +1; z+=6){
+                vertices[z] = vertices[z] + (speed[i]);
+            }
+
+        }
+    }
 }
 
 unsigned int make_module(const std::string& filepath, unsigned int module_type){
