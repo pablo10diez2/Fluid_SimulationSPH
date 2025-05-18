@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <ctime>
+#include <cmath>
 
 using namespace std;
 
@@ -49,9 +50,9 @@ int main(){
         };
 
     float* speeds = new float[numTriangles]{
-        0.0001f,
-        0.0001f,
-        0.0001f
+        -0.0001f,
+        -0.0001f,
+        -0.0001f
     };
 
     unsigned int VBO, VAO;
@@ -103,11 +104,14 @@ void isEdge(float* vertices, int numParameters, int numTriangles, float* speed){
 
     for(int i = 0; i<numTriangles; i++){
         for(int z = 1 + (18*i); z < (i*18)+(numParameters*3) +1; z+=6){
-            if(vertices[z]<= -1.0f){
-                speed[i] = 0.0f;
-            }
+            if(vertices[z] <= -1.0f){
+                speed[i] = abs(speed[i]*0.65f);
+                if(speed[i]<0.0001f){
+                    speed[i] = 0.0f;
+                }
         }
     }
+}
 }
 
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath){
@@ -141,7 +145,7 @@ unsigned int make_shader(const std::string& vertex_filepath, const std::string& 
 void gravity(float* vertices, int numParameters, int numTriangles, float* speed){
     for(int i = 0; i< numTriangles; i++){
         if(speed[i] != 0.0f){
-            float acc = 0.00001f;
+            float acc = 0.0001f;
             float calculo = speed[i] -acc;
             
             speed[i] = calculo;
