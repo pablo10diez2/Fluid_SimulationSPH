@@ -9,11 +9,12 @@ using namespace std;
 
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
-void gravity(float* vertices, int numParameters, int numTriangles, float* speed);
-void isEdge(float* vertices, int numParameters, int numTriangles, float* speed);
+void gravity(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds);
+void isEdge(float* vertices, int numParameters, int numTriangles, float* speeds);
 void buildCircle(float radius, int count);
 
 std::vector<float> vertices;
+std::vector<float> speeds;
 
 int main(){
     GLFWwindow* window;
@@ -56,11 +57,13 @@ int main(){
     while(!glfwWindowShouldClose(window)){
         glfwPollEvents();
         
-        //float time = glfwGetTime();   
+        //isEdge(vertices, numParameters, numTriangles, speeds);
+        int numTriangles = 10;
+        int numCircles = 1;
+        
+        gravity(vertices, numTriangles, numCircles, speeds);
 
-        //isEdge(vertices2, numParameters, numTriangles, speeds2);
-
-        //gravity(vertices2, numParameters, numTriangles, speeds2);
+        std::cout<<speeds[0]<<std::endl;
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)*6*vertices.size(), &vertices[0]);
@@ -85,6 +88,8 @@ void buildCircle(float radius, int count){
 
     std::vector<glm::vec3> temp;
 
+    speeds.insert(vertices.end(), -0.001f);
+
     for(int i=0; i<count; i++){
         float currentAngle = angle*i;
         float x = radius * cos(glm::radians(currentAngle));
@@ -103,10 +108,6 @@ void buildCircle(float radius, int count){
         vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 0.5f, 1.0f, 0.0f});
         vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 0.5f, 1.0f, 0.0f});
     }
-    for(int i=0; i<12*3; i++){
-        std::cout<<vertices[i]<<std::endl;
-    }
-    
 }
 
 void isEdge(float* vertices, int numParameters, int numTriangles, float* speed){
@@ -150,18 +151,17 @@ unsigned int make_shader(const std::string& vertex_filepath, const std::string& 
         return shader;
 }
 
-void gravity(float* vertices, int numParameters, int numTriangles, float* speed){
-    for(int i = 0; i< numTriangles; i++){
-        if(speed[i] != 0.0f){
+void gravity(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds){
+    for(int i = 0; i< numCircles; i++){
+        if(speeds[i] != 0.0f){
             float acc = 0.0001f;
-            float calculo = speed[i] -acc;
-            
-            speed[i] = calculo;
+            float calculo = speeds[i] -acc;
+            std::cout<<calculo<<std::endl;
 
-            for(int z=1 +(18*i); z < (18*i) + (numParameters*3) +1; z+=6){
-                vertices[z] = vertices[z] + (speed[i]);
-            }
-
+            speeds[i] = calculo;
+            for(int z=0; z < numTriangles*3; z++){
+                vertices[1+(i*18)+(z*6)] = vertices[1+(i*18)+(z*6)] + speeds[i];
+              }
         }
     }
 }
