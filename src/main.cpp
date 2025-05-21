@@ -5,12 +5,10 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-using namespace std;
-
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
 void gravity(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds);
-void isEdge(float* vertices, int numParameters, int numTriangles, float* speeds);
+void isEdge(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds);
 void buildCircle(float radius, int count);
 
 std::vector<float> vertices;
@@ -35,9 +33,9 @@ int main(){
 
     unsigned int shader = make_shader("../src/shaders/vertex.txt", "../src/shaders/fragment.txt");
     
-    int numTriangles = 12;
+    int numTriangles = 38;
 
-    buildCircle(0.2, numTriangles);
+    buildCircle(0.1, numTriangles);
 
     unsigned int VBO, VAO;
 
@@ -57,13 +55,11 @@ int main(){
     while(!glfwWindowShouldClose(window)){
         glfwPollEvents();
         
-        //isEdge(vertices, numParameters, numTriangles, speeds);
-        int numTriangles = 10;
+        int numTriangles = 36;
         int numCircles = 1;
         
+        isEdge(vertices, numTriangles, numCircles, speeds);
         gravity(vertices, numTriangles, numCircles, speeds);
-
-        std::cout<<speeds[0]<<std::endl;
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)*6*vertices.size(), &vertices[0]);
@@ -98,6 +94,8 @@ void buildCircle(float radius, int count){
 
         temp.push_back(glm::vec3(x,y,z));
 
+        std::cout<<"x:"<<x<<" y:"<<y<<std::endl;
+
     }
     for(int i=0; i < triangleCount; i++){
         glm::vec3 v0 = temp[0];
@@ -110,14 +108,19 @@ void buildCircle(float radius, int count){
     }
 }
 
-void isEdge(float* vertices, int numParameters, int numTriangles, float* speed){
-    for(int i = 0; i<numTriangles; i++){
-        for(int z = 1 + (18*i); z < (i*18)+(numParameters*3) +1; z+=6){
-            if(vertices[z] <= -1.0f){
-                speed[i] = abs((speed[i])*0.65f);
-                if(speed[i]<0.0001f){
-                    speed[i] = 0.0f;
+void isEdge(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds){
+    for(int i = 0; i< numCircles; i++){
+        std::cout<<speeds[i]<<std::endl;
+
+        for(int z=0; z<numTriangles*3; z++){
+            int index = 1+ (i*18) + (z*6);
+
+            if(vertices[index]<= -0.9999f){
+                speeds[i] = 0.65*std::abs(speeds[i]);
+                if(std::abs(speeds[i])<0.0001f){
+                    speeds[i] = 0.0f;
                 }
+                break;
             }
         }
     }
