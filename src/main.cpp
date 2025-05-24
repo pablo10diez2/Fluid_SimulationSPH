@@ -52,8 +52,30 @@ int main(){
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
+    //Frame rate
+    float previousTime = 0.0f;
+    float currentTime = 0.0f;
+    float timeDiff;
+    unsigned int counter = 0;
+
     while(!glfwWindowShouldClose(window)){
         glfwPollEvents();
+
+        //Frame rate
+        currentTime = glfwGetTime();
+        timeDiff = currentTime-previousTime;
+        counter++;
+
+        if(timeDiff >= 1.0f/30.0){
+            float fps = (1.0f/timeDiff)*counter;
+            int fpsInt = fps;
+
+            std::string fpsString = std::to_string(fpsInt);
+            std::string newTitle = "Engine   "+ fpsString + "FPS";
+            glfwSetWindowTitle(window, newTitle.c_str());
+            previousTime = currentTime;
+            counter = 0;
+        }
         
         int numTriangles = 36;
         int numCircles = 1;
