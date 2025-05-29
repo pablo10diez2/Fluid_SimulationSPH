@@ -9,7 +9,7 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
 void gravity(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds);
 void isEdge(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds);
-void buildCircle(float radius, int count, float xUser, float yUser);
+void buildCircle(float radius, int count, float xUser, float yUser, float speed);
 
 std::vector<float> vertices;
 std::vector<float> speeds;
@@ -35,8 +35,8 @@ int main(){
     
     int numTriangles = 38;
 
-    buildCircle(0.15f, numTriangles, 0.3f, 0.3f);
-    buildCircle(0.3f, numTriangles, -0.2f, 0.6f);
+    buildCircle(0.15f, numTriangles, 0.3f, 0.3f, -0.001f);
+    buildCircle(0.3f, numTriangles, -0.2f, 0.6f, -0.005f);
 
     unsigned int VBO, VAO;
 
@@ -104,12 +104,12 @@ int main(){
     return 0;
 }
 
-void buildCircle(float radius, int count, float xUser, float yUser){
+void buildCircle(float radius, int count, float xUser, float yUser, float speed){
     float angle = 360.0f/count;
     int triangleCount = count-2;
 
     std::vector<glm::vec3> temp;
-    speeds.push_back(-0.001f);
+    speeds.push_back(speed);
     for(int i=0; i<count; i++){
         float currentAngle = angle*i;
         float x = (radius * cos(glm::radians(currentAngle)))+xUser;
@@ -131,11 +131,11 @@ void buildCircle(float radius, int count, float xUser, float yUser){
 
 void isEdge(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds){
     for(int i =0; i<numCircles; i++){
-        for(int z=0; z<numCircles*numTriangles*3*6; z+=6){
+        for(int z=0; z<numTriangles*3*6; z+=6){
             int index = z+1+(i*numTriangles*3*6);
                 
             if(vertices[index]<= -0.9999f){
-                speeds[i] = 0.65*std::abs(speeds[i]);
+                speeds[i] = 0.58*std::abs(speeds[i]);
                 if(std::abs(speeds[i]<0.0001f)){
                     speeds[i] = 0.0f;
                 }break;
