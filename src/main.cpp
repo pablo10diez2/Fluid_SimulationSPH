@@ -13,6 +13,7 @@ void buildCircle(float radius, int count, float xUser, float yUser, float speed)
 
 std::vector<float> vertices;
 std::vector<float> speeds;
+int numCircles;
 
 int main(){
     GLFWwindow* window;
@@ -34,6 +35,7 @@ int main(){
     unsigned int shader = make_shader("../src/shaders/vertex.txt", "../src/shaders/fragment.txt");
     
     int numTriangles = 38;
+    numCircles = 0;
 
     buildCircle(0.15f, numTriangles, 0.3f, 0.3f, -0.001f);
     buildCircle(0.3f, numTriangles, -0.2f, 0.6f, -0.005f);
@@ -78,7 +80,6 @@ int main(){
         }
         
         int numTriangles= 36;
-        int numCircles = 2;
         
         isEdge(vertices, numTriangles, numCircles, speeds);
         gravity(vertices, numTriangles, numCircles, speeds);
@@ -127,6 +128,7 @@ void buildCircle(float radius, int count, float xUser, float yUser, float speed)
         vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 1.0f, 1.0f});
         vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 1.0f, 1.0f, 1.0f});
     }
+    numCircles++;
 }
 
 void isEdge(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds){
