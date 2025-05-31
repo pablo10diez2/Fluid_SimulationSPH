@@ -1,6 +1,4 @@
-# Hello Window Project
-
-## Steps
+# Steps
 
 ```bash
 git clone <REPOSITORY_URL>
