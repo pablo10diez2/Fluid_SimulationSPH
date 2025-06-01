@@ -52,7 +52,7 @@ int main(){
 
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*6*vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
@@ -66,11 +66,13 @@ int main(){
     unsigned int counter = 0;
 
     bool newData;
+    int numTrianglesReal = numTriangles-2;
 
     while(!glfwWindowShouldClose(window)){
         if(nuevo){
             buildCircle(0.15f, numTriangles, 0.0f, 0.8f, -0.01f);
             nuevo = false;
+            newData = true;
         }
 
         glfwPollEvents();
@@ -80,7 +82,7 @@ int main(){
         timeDiff = currentTime-previousTime;
         counter++;
 
-        if(timeDiff >= 1.0f/30.0){
+        if(timeDiff >= 1.0f/10.0){
             float fps = (1.0f/timeDiff)*counter;
             int fpsInt = fps;
 
@@ -91,10 +93,8 @@ int main(){
             counter = 0;
         }
         
-        int numTriangles= 36;
-        
-        isEdge(vertices, numTriangles, numCircles, speeds);
-        gravity(vertices, numTriangles, numCircles, speeds);
+        isEdge(vertices, numTrianglesReal, numCircles, speeds);
+        gravity(vertices, numTrianglesReal, numCircles, speeds);
 
         for(int i = 0; i< speeds.size(); i++){
             std::cout<<"speed"<<i<<":"<<speeds[i]<<std::endl;
@@ -113,6 +113,15 @@ int main(){
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, vertices.size()/6);
         glfwSwapBuffers(window);
+        
+        GLenum err = glGetError();
+
+        if(err != GL_NO_ERROR){
+            std::cout<<err<<std::endl;
+            break;
+            std::cout<<vertices.size();
+        }
+
     }
 
     glDeleteProgram(shader);
