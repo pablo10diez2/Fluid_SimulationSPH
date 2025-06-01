@@ -11,9 +11,12 @@ void gravity(std::vector<float>& vertices, int numTriangles, int numCircles, std
 void isEdge(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds);
 void buildCircle(float radius, int count, float xUser, float yUser, float speed);
 
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+
 std::vector<float> vertices;
 std::vector<float> speeds;
 int numCircles;
+bool nuevo;
 
 int main(){
     GLFWwindow* window;
@@ -24,6 +27,8 @@ int main(){
     
     window = glfwCreateWindow(640, 640, "MyWindow", NULL, NULL);
     glfwMakeContextCurrent(window);
+
+    glfwSetMouseButtonCallback(window, mouseButtonCallback);
 
     if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
         glfwTerminate();
@@ -60,7 +65,14 @@ int main(){
     float timeDiff;
     unsigned int counter = 0;
 
+    bool newData;
+
     while(!glfwWindowShouldClose(window)){
+        if(nuevo){
+            buildCircle(0.15f, numTriangles, 0.0f, 0.8f, -0.01f);
+            nuevo = false;
+        }
+
         glfwPollEvents();
 
         //Frame rate
@@ -89,7 +101,13 @@ int main(){
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)*6*vertices.size(), &vertices[0]);
+
+        if(newData){
+            glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+            newData = false;
+        }else{
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)*vertices.size(), &vertices[0]);
+        }
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(shader);
         glBindVertexArray(VAO);
@@ -218,4 +236,11 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type){
     }
 
     return shaderModule;
+}
+
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods){
+    if(button==GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
+        nuevo = true;
+    }
+
 }
