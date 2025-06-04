@@ -8,6 +8,7 @@ add_executable(engine
     src/config.h 
     src/main.cpp 
     src/glad.c
+    src/globals.h
     src/gravity.cpp
     src/gravity.h)
 

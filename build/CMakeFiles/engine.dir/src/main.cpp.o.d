@@ -312,4 +312,5 @@ CMakeFiles/engine.dir/src/main.cpp.o: \
  /usr/include/glm/detail/type_half.hpp \
  /usr/include/glm/detail/type_half.inl /usr/include/glm/integer.hpp \
  /usr/include/glm/detail/func_integer.inl \
- /home/pablo/Projects/engine/src/gravity.h
+ /home/pablo/Projects/engine/src/gravity.h \
+ /home/pablo/Projects/engine/src/globals.h

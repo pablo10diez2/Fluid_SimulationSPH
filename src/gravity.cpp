@@ -28,3 +28,25 @@ void isEdge(std::vector<float>& vertices, int numTriangles, int numCircles, std:
         }
     }
 }
+
+float* getDistance(int circle1, int circle2){
+    float* distance= new float[2];
+
+    distance[0] = abs( (centers[circle1]-radiusArray[circle1]) + (centers[circle2]+radiusArray[circle2]));
+    distance[1] = abs( (centers[circle1+1]-radiusArray[circle1]) + (centers[circle2+1]+radiusArray[circle2]));
+    return distance;
+}
+
+void ballCollisions(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds){
+    for(int i = 0; i<numCircles; i++){
+        for(int z= 0; z<numCircles; z++){
+            if(i!=z){
+                float* distance = getDistance(i, z);
+                if(distance[0] <= 0.001f && distance[1] <= 0.001f){
+                    std::cout<<"Collision: "<<i<<"-"<<z<<"Distance: "<<distance[0]<<"-"<<distance[1]<<std::endl;
+                }
+                delete[] distance;
+            }   
+        }
+    }
+}

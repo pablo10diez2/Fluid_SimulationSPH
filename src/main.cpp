@@ -14,6 +14,9 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 std::vector<float> vertices;
 std::vector<float> speeds;
+std::vector<float> centers;
+std::vector<float> radiusArray;
+
 int numCircles;
 bool nuevo;
 
@@ -91,7 +94,7 @@ int main(){
             previousTime = currentTime;
             counter = 0;
         }
-        
+        ballCollisions(vertices, numTrianglesReal, numCircles, speeds);
         isEdge(vertices, numTrianglesReal, numCircles, speeds);
         gravity(vertices, numTrianglesReal, numCircles, speeds);
 
@@ -132,6 +135,10 @@ int main(){
 }
 
 void buildCircle(float radius, int count, float xUser, float yUser, float speed){
+    radiusArray.push_back(radius);
+    centers.push_back(xUser);
+    centers.push_back(yUser);
+
     float angle = 360.0f/count;
     int triangleCount = count-2;
 
