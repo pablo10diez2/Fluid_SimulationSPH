@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named hello_window
+# Target rules for targets named engine
 
 # Build rule for target.
-hello_window: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hello_window
-.PHONY : hello_window
+engine: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 engine
+.PHONY : engine
 
 # fast build rule for target.
-hello_window/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_window.dir/build.make CMakeFiles/hello_window.dir/build
-.PHONY : hello_window/fast
+engine/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/build
+.PHONY : engine/fast
 
 src/glad.o: src/glad.c.o
 .PHONY : src/glad.o
 
 # target to build an object file
 src/glad.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_window.dir/build.make CMakeFiles/hello_window.dir/src/glad.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/glad.c.o
 .PHONY : src/glad.c.o
 
 src/glad.i: src/glad.c.i
@@ -142,7 +142,7 @@ src/glad.i: src/glad.c.i
 
 # target to preprocess a source file
 src/glad.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_window.dir/build.make CMakeFiles/hello_window.dir/src/glad.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/glad.c.i
 .PHONY : src/glad.c.i
 
 src/glad.s: src/glad.c.s
@@ -150,15 +150,39 @@ src/glad.s: src/glad.c.s
 
 # target to generate assembly for a file
 src/glad.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_window.dir/build.make CMakeFiles/hello_window.dir/src/glad.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/glad.c.s
 .PHONY : src/glad.c.s
+
+src/gravity.o: src/gravity.cpp.o
+.PHONY : src/gravity.o
+
+# target to build an object file
+src/gravity.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/gravity.cpp.o
+.PHONY : src/gravity.cpp.o
+
+src/gravity.i: src/gravity.cpp.i
+.PHONY : src/gravity.i
+
+# target to preprocess a source file
+src/gravity.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/gravity.cpp.i
+.PHONY : src/gravity.cpp.i
+
+src/gravity.s: src/gravity.cpp.s
+.PHONY : src/gravity.s
+
+# target to generate assembly for a file
+src/gravity.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/gravity.cpp.s
+.PHONY : src/gravity.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_window.dir/build.make CMakeFiles/hello_window.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -166,7 +190,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_window.dir/build.make CMakeFiles/hello_window.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -174,7 +198,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_window.dir/build.make CMakeFiles/hello_window.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 # Help Target
@@ -185,10 +209,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... hello_window"
+	@echo "... engine"
 	@echo "... src/glad.o"
 	@echo "... src/glad.i"
 	@echo "... src/glad.s"
+	@echo "... src/gravity.o"
+	@echo "... src/gravity.i"
+	@echo "... src/gravity.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
