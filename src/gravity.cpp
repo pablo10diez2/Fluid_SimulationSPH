@@ -37,6 +37,7 @@ void getCenters(std::vector<float>& vertices, int numTriangles, int numCircles, 
     float yCenter = vertices[index+1];
 
     center.clear();
+    std::cout<<"clear arriba"<<std::endl;
     center.push_back(xCenter);
     center.push_back(yCenter);
 }
@@ -58,6 +59,9 @@ float* getDistance(std::vector<float>& vertices, int numTriangles, int numCircle
     float* distance= new float[2];
     distance[0] = abs( (center1x-radiusArray[circle1]) + (center2x+radiusArray[circle2]));
     distance[1] = abs( (center1y-radiusArray[circle1]) + (center2y+radiusArray[circle2]));
+
+    std::cout<<distance[0]<<std::endl;
+    std::cout<<distance[1]<<std::endl;
     return distance;
 }
 
@@ -66,7 +70,7 @@ void ballCollisions(std::vector<float>& vertices, int numTriangles, int numCircl
         for(int z= 0; z<numCircles; z++){
             if(i!=z){
                 float* distance = getDistance(vertices, numTriangles, numCircles, i, z);
-                if(distance[0] <= 0.001f && distance[1] <= 0.001f){
+                if((distance[0] <= 0.001f) && (distance[1] <= 0.001f)){
                     std::cout<<"Collision: "<<i<<"-"<<z<<"Distance: "<<distance[0]<<"-"<<distance[1]<<std::endl;
                 }
                 delete[] distance;
