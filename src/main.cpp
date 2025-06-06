@@ -14,7 +14,6 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 std::vector<float> vertices;
 std::vector<float> speeds;
-std::vector<float> centers;
 std::vector<float> radiusArray;
 
 int numCircles;
@@ -136,8 +135,6 @@ int main(){
 
 void buildCircle(float radius, int count, float xUser, float yUser, float speed){
     radiusArray.push_back(radius);
-    centers.push_back(xUser);
-    centers.push_back(yUser);
 
     float angle = 360.0f/count;
     int triangleCount = count-2;
@@ -156,15 +153,12 @@ void buildCircle(float radius, int count, float xUser, float yUser, float speed)
         glm::vec3 v0 = temp[0];
         glm::vec3 v1 = temp[i+1];
         glm::vec3 v2 = temp[i+2];
-
         vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 1.0f, 0.0f, 0.0f});
         vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 1.0f, 1.0f});
         vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 1.0f, 1.0f, 1.0f});
     }
     numCircles++;
 }
-
-
 
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath){
     std::vector<unsigned int> modules;
@@ -230,5 +224,4 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods){
     if(button==GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
         nuevo = true;
     }
-
 }
