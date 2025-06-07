@@ -12,3 +12,4 @@ void ballCollisions(std::vector<float>& vertices, int numTriangles, int numCircl
 void getCenters(std::vector<float>& vertices, int numTriangles, int circle);
 
 float getDistance(std::vector<float>& vertices, int numTriangles, int numCircles, int circle1, int circle2);
+void applyCollision(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds, int circle1, float sign);

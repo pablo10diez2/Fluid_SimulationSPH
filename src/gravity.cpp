@@ -63,8 +63,16 @@ void ballCollisions(std::vector<float>& vertices, int numTriangles, int numCircl
                 float distance = getDistance(vertices, numTriangles, numCircles, i, z);
                 if(distance < 0.001f){
                     std::cout<<"Collision: "<<i<<"-"<<z<<"Distance: "<<distance<<std::endl;
+                    applyCollision(vertices, numTriangles, numCircles, speeds, i, 1);
+                    applyCollision(vertices, numTriangles, numCircles, speeds, z, -1);
                 }
             }   
         }
+    }
+}
+
+void applyCollision(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds, int circle1, float sign){
+    for(int z=0; z<3*6*numTriangles; z+=6){
+        vertices[z+(numTriangles*circle1*3*6)] += 0.01f*sign;
     }
 }
