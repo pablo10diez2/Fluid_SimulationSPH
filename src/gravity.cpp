@@ -20,11 +20,26 @@ void isEdge(std::vector<float>& vertices, int numTriangles, int numCircles, std:
     for(int i =0; i<numCircles; i++){
         for(int z=0; z<numTriangles*3*6; z+=6){
             int index = z+1+(i*numTriangles*3*6);
-            if(vertices[index]<= -0.9999f){
-                speeds[i] = 0.58*std::abs(speeds[i]);
-                if(std::abs(speeds[i]<0.0001f)){
-                    speeds[i] = 0.0f;
-                }break;
+            
+            if(vertices[index]<= -0.9999f || vertices[index]>=0.9999f || vertices[index-1]<=-0.9999f || vertices[index-1] >= 0.9999f){
+
+                if(vertices[index]<= -0.9999f){
+                    speeds[i] = 0.58*std::abs(speeds[i]);
+                    if(std::abs(speeds[i]<0.0001f)){
+                        speeds[i] = 0.0f;
+                    }
+                }
+                else if(vertices[index]>=0.9999f){
+                    speeds[i] = -0.5*std::abs(speeds[i]);
+                }
+
+                if(vertices[index-1]<=-0.9999f){
+                    speeds[i] = 0.3*std::abs(speeds[i]);
+                }
+                else if(vertices[index-1]>= 0.9999f){
+                    speeds[i] = -0.5*std::abs(speeds[i]);
+                }
+                break;
             }
         }
     }
@@ -73,6 +88,6 @@ void ballCollisions(std::vector<float>& vertices, int numTriangles, int numCircl
 
 void applyCollision(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds, int circle1, float sign){
     for(int z=0; z<3*6*numTriangles; z+=6){
-        vertices[z+(numTriangles*circle1*3*6)] += 0.01f*sign;
+        vertices[z+(numTriangles*circle1*3*6)] += 0.1f*sign;
     }
 }

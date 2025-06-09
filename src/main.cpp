@@ -43,7 +43,7 @@ int main(){
     int numTriangles = 38;
     numCircles = 0;
 
-    buildCircle(0.15f, numTriangles, 0.3f, 0.3f, -0.001f);
+    buildCircle(0.15f, numTriangles, 0.3f, 0.3f, -0.0001f);
     buildCircle(0.3f, numTriangles, -0.2f, 0.6f, -0.005f);
 
     unsigned int VBO, VAO;
