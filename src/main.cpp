@@ -10,6 +10,7 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
 void buildCircle(float radius, int count, float xUser, float yUser, float speed);
 void rebuildCenters(int count);
+void reBuildCircle(float radius, int count, float xUser, float yUser);
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
@@ -68,14 +69,12 @@ int main(){
     float timeDiff;
     unsigned int counter = 0;
 
-    bool newData;
     int numTrianglesReal = numTriangles-2;
 
     while(!glfwWindowShouldClose(window)){
         if(nuevo){
             buildCircle(0.15f, numTriangles, 0.0f, 0.8f, -0.01f);
             nuevo = false;
-            newData = true;
         }
 
         glfwPollEvents();
@@ -95,24 +94,20 @@ int main(){
             previousTime = currentTime;
             counter = 0;
         }
-        ballCollisions(vertices, numTrianglesReal, numCircles, speeds);
-        isEdge(vertices, numTrianglesReal, numCircles, speeds);
-        gravity(vertices, numTrianglesReal, numCircles, speeds);
+
+        //ballCollisions(vertices, numTrianglesReal, numCircles, speeds);
+        //isEdge(vertices, numTrianglesReal, numCircles, speeds);
+        //gravity(vertices, numTrianglesReal, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
-
+        
         for(int i = 0; i< speeds.size(); i++){
             std::cout<<"speed"<<i<<":"<<speeds[i]<<std::endl;
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
 
-        if(newData){
-            glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
-            newData = false;
-        }else{
-            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)*vertices.size(), &vertices[0]);
-        }
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(shader);
         glBindVertexArray(VAO);
@@ -126,7 +121,6 @@ int main(){
             break;
             std::cout<<vertices.size();
         }
-
     }
 
     glDeleteProgram(shader);
@@ -139,6 +133,8 @@ int main(){
 
 void buildCircle(float radius, int count, float xUser, float yUser, float speed){
     radiusArray.push_back(radius);
+    centers.push_back(xUser);
+    centers.push_back(yUser);
 
     float angle = 360.0f/count;
     int triangleCount = count-2;
@@ -163,11 +159,32 @@ void buildCircle(float radius, int count, float xUser, float yUser, float speed)
     }
     numCircles++;
 }
+void reBuildCircle(float radius, int count, float xUser, float yUser){
+    float angle = 360.0f/count;
+    int triangleCount = count-2;
 
+    std::vector<glm::vec3> temp;
+    for(int i=0; i<count; i++){
+        float currentAngle = angle*i;
+        float x = (radius * cos(glm::radians(currentAngle)))+xUser;
+        float y = (radius * sin(glm::radians(currentAngle)))+yUser;
+        float z = 0.0f;
+
+        temp.push_back(glm::vec3(x,y,z));
+    }
+    for(int i=0; i < triangleCount; i++){
+        glm::vec3 v0 = temp[0];
+        glm::vec3 v1 = temp[i+1];
+        glm::vec3 v2 = temp[i+2];
+        vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 1.0f, 0.0f, 0.0f});
+        vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 1.0f, 1.0f});
+        vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 1.0f, 1.0f, 1.0f});
+    }
+}
 void rebuildCenters(int count){
     vertices.clear();
-    for(int i=0; i<numCircles;){
-        buildCircle(radiusArray[i], count, centers[i], centers[i+1], speeds[i]);
+    for(int i=0; i<numCircles; i++){
+        reBuildCircle(radiusArray[i], count, centers[2*i], centers[2*i+1]);
     }
 }
 
