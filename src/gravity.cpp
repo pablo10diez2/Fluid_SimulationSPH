@@ -3,19 +3,16 @@
 
 std::vector<float> center;
 
-void gravity(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds){
+void gravity(std::vector<float>& centers, int numCircles, std::vector<float>& speeds){
     for(int i=0; i<numCircles; i++){
         if(speeds[i] != 0.0f){
             float acc = 0.0001f;
-            float calculo = speeds[i] -acc;
+            float calculo = speeds[i]-acc;
             speeds[i] = calculo;
-            for(int z=0; z<numTriangles*3*6; z+=6){
-                vertices[z+1+(i*numTriangles*3*6)]=vertices[z+1+(i*numTriangles*3*6)]+speeds[i];
-            }
+            centers[2*i+1] = centers[2*i+1] + speeds[i];
         }
     }
 }
-
 void isEdge(std::vector<float>& vertices, int numTriangles, int numCircles, std::vector<float>& speeds){
     for(int i =0; i<numCircles; i++){
         for(int z=0; z<numTriangles*3*6; z+=6){
