@@ -9,12 +9,14 @@
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
 void buildCircle(float radius, int count, float xUser, float yUser, float speed);
+void rebuildCenters(int count);
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 std::vector<float> vertices;
 std::vector<float> speeds;
 std::vector<float> radiusArray;
+std::vector<float> centers;
 
 int numCircles;
 bool nuevo;
@@ -97,6 +99,8 @@ int main(){
         isEdge(vertices, numTrianglesReal, numCircles, speeds);
         gravity(vertices, numTrianglesReal, numCircles, speeds);
 
+        rebuildCenters(numTrianglesReal);
+
         for(int i = 0; i< speeds.size(); i++){
             std::cout<<"speed"<<i<<":"<<speeds[i]<<std::endl;
         }
@@ -158,6 +162,13 @@ void buildCircle(float radius, int count, float xUser, float yUser, float speed)
         vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 1.0f, 1.0f, 1.0f});
     }
     numCircles++;
+}
+
+void rebuildCenters(int count){
+    vertices.clear();
+    for(int i=0; i<numCircles;){
+        buildCircle(radiusArray[i], count, centers[i], centers[i+1], speeds[i]);
+    }
 }
 
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath){
