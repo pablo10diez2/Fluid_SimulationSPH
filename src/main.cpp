@@ -96,8 +96,8 @@ int main(){
         }
 
         //ballCollisions(vertices, numTrianglesReal, numCircles, speeds);
-        //isEdge(vertices, numTrianglesReal, numCircles, speeds);
-        gravity(centers,numCircles, speeds);
+        isEdge(centers, numCircles, speeds);
+        gravity(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
         
