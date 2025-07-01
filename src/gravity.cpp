@@ -26,12 +26,11 @@ void isEdge(std::vector<float>& centers, int numCircles, std::vector<float>& spe
 }
 
 float getDistance(std::vector<float>& centers, int circle1, int circle2){
-    float dx = centers[circle2] - centers[circle1];
-    float dy = centers[circle2+1] - centers[circle1+1];
+    float dx = centers[2*circle2] - centers[2*circle1];
+    float dy = centers[2*circle2+1] - centers[2*circle1+1];
     float distance = std::sqrt( pow(dx,2) + pow(dy,2) );
-    distance = std::abs(distance);
 
-    return distance-radiusArray[circle1] - radiusArray[circle2];
+    return distance-radiusArray[circle1]-radiusArray[circle2];
 }
 
 void ballCollisions(std::vector<float>& centers, int numCircles, std::vector<float>& speeds){
@@ -39,12 +38,10 @@ void ballCollisions(std::vector<float>& centers, int numCircles, std::vector<flo
         for(int z=0; z<numCircles; z++){
             if(i != z){
                 float distance = getDistance(centers, i, z);
-                if(distance < 0.00001f){
+                if(distance < 0){
                     std::cout<<"Collision: "<<i<<"-"<<z<<"Distance: "<<distance<<std::endl;
-                    //centers[i] += 0.1;
-                    //centers[i+1] += 0.1;
-                    //centers[z] += -0.1f;
-                    //centers[z+1] += -0.1f;
+                    centers[i] += 0.1;
+                    centers[z] += -0.1f;
                 }
             }
         }
