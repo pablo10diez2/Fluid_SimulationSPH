@@ -4,11 +4,10 @@
 std::vector<float> center;
 
 void gravity(std::vector<float>& centers, int numCircles, std::vector<float>& speeds, float timeDiff){
-    float g = -0.0005f;
-    float ax = 0.95f;
+    float g = -1.5f;
+    float ax = 0.98f;
     for(int i=0; i<numCircles; i++){
         if(speeds[2*i+1] != 0.0f){
-            float acc = 0.0001f;
             speeds[2*i+1] += g*timeDiff;
             centers[2*i+1] += speeds[2*i+1]*timeDiff;
         }
@@ -24,24 +23,20 @@ void gravity(std::vector<float>& centers, int numCircles, std::vector<float>& sp
 
 void isEdge(std::vector<float>& centers, int numCircles, std::vector<float>& speeds){
     for(int i=0; i<numCircles; i++){
-        float bottonY = centers[2*i+1] -radiusArray[i];
-        std::cout<<bottonY<<std::endl;
-
-        if(bottonY < -1.05f){
-            centers[2*i+1] = -1.0f + radiusArray[i];
-            speeds[2*i+1] = 0.0f;
-        }
-        else if(bottonY<-0.99f){
-            centers[2*i+1] = -1.0f + radiusArray[i];
-            
-            if(speeds[2*i+1] < 0.0f){
+        float bottonY = centers[2*i+1]-radiusArray[i];
+        float bottonX = centers[2*i]-radiusArray[i];
+        float topY = centers[2*i+1]+radiusArray[i];
+        float topX = centers[2*i]+radiusArray[i];
+        
+        if(bottonY<-0.999f){
+            centers[2*i+1] = -0.999f + radiusArray[i];
+            if(std::abs(speeds[2*i+1]) < 0.001f){
+                speeds[2*i+1] = 0.0f;
+            }else{
                 speeds[2*i+1] = -0.55f * speeds[2*i+1];
-
-                if(speeds[2*i+1] < 0.01f){
-                    speeds[2*i+1] = 0.0f;
-                }
             }
         }
+
     }
 }
 
@@ -60,7 +55,9 @@ void ballCollisions(std::vector<float>& centers, int numCircles, std::vector<flo
                 float distance = getDistance(centers, i, z);
                 if(distance < 0){
                     std::cout<<"Collision: "<<i<<"-"<<z<<"Distance: "<<distance<<std::endl;
+                    speeds[2*i] += 0.0001;
                     centers[i] += 0.1;
+                    speeds[2*z+1] += 0.0001f;
                     centers[z] += -0.1f;
                 }
             }

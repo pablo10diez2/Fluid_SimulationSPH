@@ -19,8 +19,8 @@ std::vector<float> speeds;
 std::vector<float> radiusArray;
 std::vector<float> centers;
 
-int numCircles;
-bool nuevo;
+unsigned int numCircles;
+bool newCircle;
 
 int main(){
     GLFWwindow* window;
@@ -28,8 +28,11 @@ int main(){
     if(!glfwInit()){
         std::cout<<"GLFW could not start";
     }
-    
-    window = glfwCreateWindow(640, 640, "MyWindow", NULL, NULL);
+
+    unsigned short windowSizeX = 640;
+    unsigned short windowSizeY = 640;
+
+    window = glfwCreateWindow(windowSizeX, windowSizeY, "MyWindow", NULL, NULL);
     glfwMakeContextCurrent(window);
 
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
@@ -46,8 +49,19 @@ int main(){
     int numTriangles = 38;
     numCircles = 0;
 
-    buildCircle(0.15f, numTriangles, 0.3f, 0.3f, 0.0f, -0.0001f);
-    buildCircle(0.3f, numTriangles, -0.2f, 0.6f, -0.07f, -0.005f);
+    float circleSize1 = 0.15f;
+    float xCircle1 = 0.3f;
+    float yCircle1 = 0.3f;
+    float xSpeed1 = 0.0f;
+    float ySpeed1 = -0.0001f;
+    buildCircle(circleSize1, numTriangles, xCircle1, yCircle1, xSpeed1, ySpeed1);
+
+    float circleSize2 = 0.3f;
+    float xCircle2 = -0.2f;
+    float yCircle2 = 0.6f;
+    float xSpeed2 = -0.5f;
+    float ySpeed2 = -0.005f;
+    buildCircle(circleSize2, numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
 
     unsigned int VBO, VAO;
 
@@ -78,9 +92,15 @@ int main(){
     int numTrianglesReal = numTriangles-2;
 
     while(!glfwWindowShouldClose(window)){
-        if(nuevo){
-            buildCircle(0.15f, numTriangles, 0.0f, 0.8f, 0.001f, -0.0001f);
-            nuevo = false;
+        if(newCircle){
+            float newCircleSize = 0.15f;
+            float newCircleX = 0.0f;
+            float newCircleY = 0.8f;
+            float newCircleSpeedX = 0.11f;
+            float newCircleSpeedY = -0.0001f;
+
+            buildCircle(newCircleSize, numTriangles, newCircleX, newCircleY, newCircleSpeedX, newCircleSpeedY);
+            newCircle = false;
         }
 
         glfwPollEvents();
@@ -104,9 +124,9 @@ int main(){
         currentTimeG = glfwGetTime();
         timeDiffG = currentTimeG - previousTimeG;
 
-        ballCollisions(centers, numCircles, speeds);
-        isEdge(centers, numCircles, speeds);
+        //ballCollisions(centers, numCircles, speeds);
         gravity(centers, numCircles, speeds, timeDiffG);
+        isEdge(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
         
@@ -131,9 +151,8 @@ int main(){
             break;
             std::cout<<vertices.size();
         }
+        previousTimeG = currentTimeG;
     }
-    
-    previousTimeG = currentTimeG;
 
     glDeleteProgram(shader);
     glDeleteVertexArrays(1, &VAO);
@@ -263,6 +282,6 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type){
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods){
     if(button==GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
-        nuevo = true;
+        newCircle = true;
     }
 }
