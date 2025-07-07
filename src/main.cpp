@@ -67,13 +67,19 @@ int main(){
     float previousTime = 0.0f;
     float currentTime = 0.0f;
     float timeDiff;
+
+    //gravity
+    float previousTimeG = 0.0f;
+    float currentTimeG = 0.0f;
+    float timeDiffG;
+
     unsigned int counter = 0;
 
     int numTrianglesReal = numTriangles-2;
 
     while(!glfwWindowShouldClose(window)){
         if(nuevo){
-            buildCircle(0.15f, numTriangles, 0.0f, 0.8f, -0.01f);
+            buildCircle(0.15f, numTriangles, 0.0f, 0.8f, -0.0001f);
             nuevo = false;
         }
 
@@ -84,7 +90,7 @@ int main(){
         timeDiff = currentTime-previousTime;
         counter++;
 
-        if(timeDiff >= 1.0f/10.0){
+        if(timeDiff >= 1.0f/10.0f){
             float fps = (1.0f/timeDiff)*counter;
             int fpsInt = fps;
 
@@ -95,9 +101,12 @@ int main(){
             counter = 0;
         }
 
+        currentTimeG = glfwGetTime();
+        timeDiffG = currentTimeG - previousTimeG;
+
         ballCollisions(centers, numCircles, speeds);
         isEdge(centers, numCircles, speeds);
-        gravity(centers, numCircles, speeds);
+        gravity(centers, numCircles, speeds, timeDiffG);
 
         rebuildCenters(numTrianglesReal);
         
@@ -122,6 +131,8 @@ int main(){
             std::cout<<vertices.size();
         }
     }
+    
+    previousTimeG = currentTimeG;
 
     glDeleteProgram(shader);
     glDeleteVertexArrays(1, &VAO);
