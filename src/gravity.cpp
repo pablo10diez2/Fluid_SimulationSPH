@@ -4,13 +4,21 @@
 std::vector<float> center;
 
 void gravity(std::vector<float>& centers, int numCircles, std::vector<float>& speeds, float timeDiff){
-    float g = -0.0008f;
+    float g = -0.0005f;
+    float ax = 0.95f;
     for(int i=0; i<numCircles; i++){
-        if(speeds[i] != 0.0f){
+        if(speeds[2*i+1] != 0.0f){
             float acc = 0.0001f;
-            speeds[i] += g*timeDiff;
-            centers[2*i+1] += speeds[i]*timeDiff;
+            speeds[2*i+1] += g*timeDiff;
+            centers[2*i+1] += speeds[2*i+1]*timeDiff;
         }
+
+        if(std::abs(speeds[2*i])> 0.0001f){
+            speeds[2*i] *= ax;
+        }else{
+            speeds[2*i] = 0.0f;
+        }
+        centers[2*i] += speeds[2*i] * timeDiff;
     }
 }
 
@@ -21,16 +29,16 @@ void isEdge(std::vector<float>& centers, int numCircles, std::vector<float>& spe
 
         if(bottonY < -1.05f){
             centers[2*i+1] = -1.0f + radiusArray[i];
-            speeds[i] = 0.0f;
+            speeds[2*i+1] = 0.0f;
         }
         else if(bottonY<-0.99f){
             centers[2*i+1] = -1.0f + radiusArray[i];
             
-            if(speeds[i] < 0.0f){
-                speeds[i] = -0.55f * speeds[i];
+            if(speeds[2*i+1] < 0.0f){
+                speeds[2*i+1] = -0.55f * speeds[2*i+1];
 
-                if(speeds[i] < 0.01f){
-                    speeds[i] = 0.0f;
+                if(speeds[2*i+1] < 0.01f){
+                    speeds[2*i+1] = 0.0f;
                 }
             }
         }

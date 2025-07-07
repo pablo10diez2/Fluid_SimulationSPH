@@ -8,7 +8,7 @@
 
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
-void buildCircle(float radius, int count, float xUser, float yUser, float speed);
+void buildCircle(float radius, int count, float xUser, float yUser, float speed1, float speed2);
 void rebuildCenters(int count);
 void reBuildCircle(float radius, int count, float xUser, float yUser);
 
@@ -46,8 +46,8 @@ int main(){
     int numTriangles = 38;
     numCircles = 0;
 
-    buildCircle(0.15f, numTriangles, 0.3f, 0.3f, -0.0001f);
-    buildCircle(0.3f, numTriangles, -0.2f, 0.6f, -0.005f);
+    buildCircle(0.15f, numTriangles, 0.3f, 0.3f, 0.0f, -0.0001f);
+    buildCircle(0.3f, numTriangles, -0.2f, 0.6f, -0.07f, -0.005f);
 
     unsigned int VBO, VAO;
 
@@ -79,7 +79,7 @@ int main(){
 
     while(!glfwWindowShouldClose(window)){
         if(nuevo){
-            buildCircle(0.15f, numTriangles, 0.0f, 0.8f, -0.0001f);
+            buildCircle(0.15f, numTriangles, 0.0f, 0.8f, 0.001f, -0.0001f);
             nuevo = false;
         }
 
@@ -110,8 +110,9 @@ int main(){
 
         rebuildCenters(numTrianglesReal);
         
-        for(int i = 0; i< speeds.size(); i++){
-            std::cout<<"speed"<<i<<":"<<speeds[i]<<std::endl;
+        for(int i = 0; i< numCircles; i++){
+            std::cout<<"speed x "<<i<<":"<<speeds[2*i]<<std::endl;
+            std::cout<<"speed y "<<i<<":"<<speeds[2*i+1]<<std::endl;
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -142,7 +143,7 @@ int main(){
     return 0;
 }
 
-void buildCircle(float radius, int count, float xUser, float yUser, float speed){
+void buildCircle(float radius, int count, float xUser, float yUser, float speed1, float speed2){
     radiusArray.push_back(radius);
     centers.push_back(xUser);
     centers.push_back(yUser);
@@ -151,7 +152,8 @@ void buildCircle(float radius, int count, float xUser, float yUser, float speed)
     int triangleCount = count-2;
 
     std::vector<glm::vec3> temp;
-    speeds.push_back(speed);
+    speeds.push_back(speed1);
+    speeds.push_back(speed2);
     for(int i=0; i<count; i++){
         float currentAngle = angle*i;
         float x = (radius * cos(glm::radians(currentAngle)))+xUser;
