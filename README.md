@@ -1,6 +1,6 @@
 ## Demo
 
-[![Watch the video](https://i.imgur.com/abc1234.png)](https://youtu.be/RXGmr0ELn5M)
+[![Watch the video](https://imgur.com/a/7S0TFHs)](https://youtu.be/RXGmr0ELn5M)
 
 ## Steps
 
