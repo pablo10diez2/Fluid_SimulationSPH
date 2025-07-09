@@ -1,6 +1,9 @@
 ## Demo
 
-[![Watch the video](https://imgur.com/a/7S0TFHs)](https://youtu.be/RXGmr0ELn5M)
+Haz clic en la imagen para ver el video:
+
+[![Watch the video](https://i.imgur.com/v9tAsWX.png)](https://youtu.be/RXGmr0ELn5M)
+
 
 ## Steps
 
