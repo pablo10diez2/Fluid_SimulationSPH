@@ -97,7 +97,7 @@ int main(){
             float newCircleX = 0.0f;
             float newCircleY = 0.8f;
             float newCircleSpeedX = 0.11f;
-            float newCircleSpeedY = -0.0001f;
+            float newCircleSpeedY = -10.0f;
 
             buildCircle(newCircleSize, numTriangles, newCircleX, newCircleY, newCircleSpeedX, newCircleSpeedY);
             newCircle = false;

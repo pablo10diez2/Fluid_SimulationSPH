@@ -37,6 +37,15 @@ void isEdge(std::vector<float>& centers, int numCircles, std::vector<float>& spe
             }
         }
 
+        if(topY > 0.999f){
+            centers[2*i+1] = 0.999f - radiusArray[i];
+            if(std::abs(speeds[2*i+1]) < 0.001f){
+                speeds[2*i+1] = 0.0f;
+            }else{
+                speeds[2*i+1] = -0.55f*speeds[2*i+1];
+            }
+        }
+
     }
 }
 
