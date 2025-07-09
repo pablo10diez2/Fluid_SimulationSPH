@@ -59,7 +59,7 @@ int main(){
     float circleSize2 = 0.3f;
     float xCircle2 = -0.2f;
     float yCircle2 = 0.6f;
-    float xSpeed2 = -0.5f;
+    float xSpeed2 = -4.5f;
     float ySpeed2 = -0.005f;
     buildCircle(circleSize2, numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
 
@@ -96,8 +96,8 @@ int main(){
             float newCircleSize = 0.15f;
             float newCircleX = 0.0f;
             float newCircleY = 0.8f;
-            float newCircleSpeedX = 0.11f;
-            float newCircleSpeedY = -10.0f;
+            float newCircleSpeedX = 2.5f;
+            float newCircleSpeedY = -40.0f;
 
             buildCircle(newCircleSize, numTriangles, newCircleX, newCircleY, newCircleSpeedX, newCircleSpeedY);
             newCircle = false;
