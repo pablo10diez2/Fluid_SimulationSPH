@@ -1,9 +1,11 @@
-## Demo
+## 🎥 Demo
 
-Haz clic en la imagen para ver el video:
-
-[![Watch the video](https://i.imgur.com/v9tAsWX.png)](https://youtu.be/RXGmr0ELn5M)
-
+<p align="center">
+  Haz clic en la imagen para ver el video:<br><br>
+  <a href="https://youtu.be/RXGmr0ELn5M" target="_blank">
+    <img src="https://i.imgur.com/v9tAsWX.png" width="400" alt="Watch the video"/>
+  </a>
+</p>
 
 ## Steps
 
