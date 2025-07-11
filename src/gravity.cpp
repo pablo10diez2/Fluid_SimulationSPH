@@ -64,17 +64,31 @@ float getDistance(std::vector<float>& centers, int circle1, int circle2){
 
 void ballCollisions(std::vector<float>& centers, int numCircles, std::vector<float>& speeds){
     for(int i=0; i<numCircles; i++){
-        for(int z=0; z<numCircles; z++){
-            if(i != z){
-                float distance = getDistance(centers, i, z);
-                if(distance < 0){
-                    std::cout<<"Collision: "<<i<<"-"<<z<<"Distance: "<<distance<<std::endl;
-                    speeds[2*i] += 0.0001;
-                    centers[i] += 0.1;
-                    speeds[2*z+1] += 0.0001f;
-                    centers[z] += -0.1f;
-                }
+        for(int j=i+1; j<numCircles; j++){
+            if(checkCollision(centers, i, j)){
+                resolveCollision(centers, i, j, speeds);
             }
         }
     }
+}
+
+bool checkCollision(std::vector<float>& centers, int index1, int index2){
+    float distance = getDistance(centers, index1, index2);
+
+    if(distance <= 0.0f){
+        return true;
+    }
+    return false;
+}
+
+void resolveCollision(std::vector<float>& centers, int index1, int index2, std::vector<float>& speeds){
+    speeds[2*index1] *= -0.7f;
+    speeds[2*index1+1] *= -0.7f;
+    speeds[2*index2] *= -0.7f;
+    speeds[2*index2+1] *= -0.7f;
+    
+    centers[2*index1] += 0.1f;
+    centers[2*index1+1] += 0.1f;
+    centers[2*index2] -= 0.1f;
+    centers[2*index2+1] -= 0.1f;
 }

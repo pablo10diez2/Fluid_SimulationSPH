@@ -124,17 +124,12 @@ int main(){
         currentTimeG = glfwGetTime();
         timeDiffG = currentTimeG - previousTimeG;
 
-        //ballCollisions(centers, numCircles, speeds);
+        ballCollisions(centers, numCircles, speeds);
         gravity(centers, numCircles, speeds, timeDiffG);
         isEdge(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
         
-        for(int i = 0; i< numCircles; i++){
-            std::cout<<"speed x "<<i<<":"<<speeds[2*i]<<std::endl;
-            std::cout<<"speed y "<<i<<":"<<speeds[2*i+1]<<std::endl;
-        }
-
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
 
