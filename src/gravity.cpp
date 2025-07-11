@@ -7,10 +7,8 @@ void gravity(std::vector<float>& centers, int numCircles, std::vector<float>& sp
     float g = -1.5f;
     float ax = 0.99f;
     for(int i=0; i<numCircles; i++){
-        if(speeds[2*i+1] != 0.0f){
-            speeds[2*i+1] += g*timeDiff;
-            centers[2*i+1] += speeds[2*i+1]*timeDiff;
-        }
+        speeds[2*i+1] += g*timeDiff;
+        centers[2*i+1] += speeds[2*i+1]*timeDiff;
 
         if(std::abs(speeds[2*i])> 0.0001f){
             speeds[2*i] *= ax;
@@ -82,13 +80,20 @@ bool checkCollision(std::vector<float>& centers, int index1, int index2){
 }
 
 void resolveCollision(std::vector<float>& centers, int index1, int index2, std::vector<float>& speeds){
-    speeds[2*index1] *= -0.7f;
-    speeds[2*index1+1] *= -0.7f;
-    speeds[2*index2] *= -0.7f;
-    speeds[2*index2+1] *= -0.7f;
+    float temp1 = speeds[2*index1];
+    float temp2 = speeds[2*index1+1];
+
+    speeds[2*index1] = 0.65f*speeds[2*index2];
+    speeds[2*index1+1] = 0.65f*speeds[2*index2+1];
+    speeds[2*index2] = 0.65f*temp1;
+    speeds[2*index2+1] = 0.65f*temp2;
+
+    float dx = centers[2*index2]-centers[2*index1];
+    float dy = centers[2*index2+1]-centers[2*index1+1];
+
+    centers[2*index2] += dx/10;
+    centers[2*index1] -= dx/10;
+    centers[2*index2+1] += dy/10;
+    centers[2*index1+1] -= dy/10;
     
-    centers[2*index1] += 0.1f;
-    centers[2*index1+1] += 0.1f;
-    centers[2*index2] -= 0.1f;
-    centers[2*index2+1] -= 0.1f;
 }
