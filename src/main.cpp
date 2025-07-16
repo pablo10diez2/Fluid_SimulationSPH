@@ -97,7 +97,7 @@ int main(){
             float newCircleX = 0.0f;
             float newCircleY = 0.8f;
             float newCircleSpeedX = 2.5f;
-            float newCircleSpeedY = -40.0f;
+            float newCircleSpeedY = -0.005f;
 
             buildCircle(newCircleSize, numTriangles, newCircleX, newCircleY, newCircleSpeedX, newCircleSpeedY);
             newCircle = false;
@@ -147,7 +147,13 @@ int main(){
             std::cout<<vertices.size();
         }
         previousTimeG = currentTimeG;
-    }
+
+        for(int i=0; i<speeds.size(); i+=2){
+            std::cout<<"Ball "<<i<<": "<<"speed x: "<<speeds[i]<< " speed y: "<<speeds[i+1]<<std::endl;
+        }
+
+    }   
+
 
     glDeleteProgram(shader);
     glDeleteVertexArrays(1, &VAO);
