@@ -148,10 +148,6 @@ int main(){
         }
         previousTimeG = currentTimeG;
 
-        for(int i=0; i<speeds.size(); i+=2){
-            std::cout<<"Ball "<<i<<": "<<"speed x: "<<speeds[i]<< " speed y: "<<speeds[i+1]<<std::endl;
-        }
-
     }   
 
 
