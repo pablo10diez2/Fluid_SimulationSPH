@@ -10,7 +10,7 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
 void buildCircle(float radius, int count, float xUser, float yUser, float speed1, float speed2);
 void rebuildCenters(int count);
-void reBuildCircle(float radius, int count, float xUser, float yUser);
+void reBuildCircle(float radius, int count, float xUser, float yUser, int index);
 void selectColor(float* red, float* blue, float speedX, float speedY);
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
@@ -198,7 +198,7 @@ void buildCircle(float radius, int count, float xUser, float yUser, float speed1
     }
     numCircles++;
 }
-void reBuildCircle(float radius, int count, float xUser, float yUser){
+void reBuildCircle(float radius, int count, float xUser, float yUser, int index){
     float angle = 360.0f/count;
     int triangleCount = count-2;
 
@@ -215,7 +215,7 @@ void reBuildCircle(float radius, int count, float xUser, float yUser){
     float red = 0.0f;
     float blue = 0.0f;
 
-    selectColor(&red, &blue, speeds[2*count], speeds[2*count+1]);
+    selectColor(&red, &blue, speeds[2*index], speeds[2*index+1]);
 
     for(int i=0; i < triangleCount; i++){
         glm::vec3 v0 = temp[0];
@@ -230,7 +230,7 @@ void reBuildCircle(float radius, int count, float xUser, float yUser){
 void rebuildCenters(int count){
     vertices.clear();
     for(int i=0; i<numCircles; i++){
-        reBuildCircle(radiusArray[i], count, centers[2*i], centers[2*i+1]);
+        reBuildCircle(radiusArray[i], count, centers[2*i], centers[2*i+1], i);
     }
 }
 
@@ -310,7 +310,7 @@ void selectColor(float* red, float* blue, float speedX, float speedY){
         *blue = 0.0f;
     }else{
         float eq = (totalSpeed-(-1.0f))/(1.0f-(-1.0f));
-        *red = eq;
-        *blue = 1-eq;
+        *red = eq/2;
+        *blue = 2*(1-eq);
     }
 }
