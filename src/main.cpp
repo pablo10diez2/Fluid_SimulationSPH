@@ -11,7 +11,7 @@ unsigned int make_shader(const std::string& vertex_filepath, const std::string& 
 void buildCircle(float radius, int count, float xUser, float yUser, float speed1, float speed2);
 void rebuildCenters(int count);
 void reBuildCircle(float radius, int count, float xUser, float yUser);
-
+void selectColor(float* red, float* blue, float speedX, float speedY);
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 std::vector<float> vertices;
@@ -140,6 +140,10 @@ int main(){
         glfwSwapBuffers(window);
         
         GLenum err = glGetError();
+    
+        for(int i=0; i<numCircles; i++){
+            std::cout<<"Ball-"<<i<<" speed x:"<<speeds[2*i]<<" | speed y:"<<speeds[2*i+1]<<std::endl;
+        }
 
         if(err != GL_NO_ERROR){
             std::cout<<err<<std::endl;
@@ -178,13 +182,19 @@ void buildCircle(float radius, int count, float xUser, float yUser, float speed1
 
         temp.push_back(glm::vec3(x,y,z));
     }
+
+    float red = 0.0f;
+    float blue = 0.0f;
+
+    selectColor(&red, &blue, speed1, speed2);
+
     for(int i=0; i < triangleCount; i++){
         glm::vec3 v0 = temp[0];
         glm::vec3 v1 = temp[i+1];
         glm::vec3 v2 = temp[i+2];
-        vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 1.0f, 0.0f, 0.0f});
-        vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 1.0f, 1.0f});
-        vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 1.0f, 1.0f, 1.0f});
+        vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, red, 0.0f, blue});
+        vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, red, 0.0f, blue});
+        vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, red, 0.0f, blue});
     }
     numCircles++;
 }
@@ -201,15 +211,22 @@ void reBuildCircle(float radius, int count, float xUser, float yUser){
 
         temp.push_back(glm::vec3(x,y,z));
     }
+
+    float red = 0.0f;
+    float blue = 0.0f;
+
+    selectColor(&red, &blue, speeds[2*count], speeds[2*count+1]);
+
     for(int i=0; i < triangleCount; i++){
         glm::vec3 v0 = temp[0];
         glm::vec3 v1 = temp[i+1];
         glm::vec3 v2 = temp[i+2];
-        vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 1.0f, 0.0f, 0.0f});
-        vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 1.0f, 1.0f});
-        vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 1.0f, 1.0f, 1.0f});
+        vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, red, 0.0f, blue});
+        vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, red, 0.0f, blue});
+        vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, red, 0.0f, blue});
     }
 }
+
 void rebuildCenters(int count){
     vertices.clear();
     for(int i=0; i<numCircles; i++){
@@ -280,5 +297,20 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type){
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods){
     if(button==GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
         newCircle = true;
+    }
+}
+
+void selectColor(float* red, float* blue, float speedX, float speedY){
+    float totalSpeed = std::abs(speedX)+std::abs(speedY);
+    if(totalSpeed>1.0f){
+        *red = 1.0f;
+        *blue = 0.0f;
+    }else if(totalSpeed<-1.0f){
+        *red = 0.0f;
+        *blue = 0.0f;
+    }else{
+        float eq = (totalSpeed-(-1.0f))/(1.0f-(-1.0f));
+        *red = eq;
+        *blue = 1-eq;
     }
 }
