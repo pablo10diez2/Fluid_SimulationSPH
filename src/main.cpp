@@ -20,6 +20,8 @@ std::vector<float> radiusArray;
 std::vector<float> centers;
 
 unsigned int numCircles;
+unsigned int numTriangles;
+bool newCircle;
 
 int main(){
     GLFWwindow* window;
@@ -28,8 +30,8 @@ int main(){
         std::cout<<"GLFW could not start";
     }
 
-    unsigned short windowSizeX = 640;
-    unsigned short windowSizeY = 640;
+    unsigned short windowSizeX = 720;
+    unsigned short windowSizeY = 720;
 
     window = glfwCreateWindow(windowSizeX, windowSizeY, "MyWindow", NULL, NULL);
     glfwMakeContextCurrent(window);
@@ -45,17 +47,17 @@ int main(){
 
     unsigned int shader = make_shader("../src/shaders/vertex.txt", "../src/shaders/fragment.txt");
     
-    int numTriangles = 38;
+    numTriangles = 20;
     numCircles = 0;
 
-    float circleSize1 = 0.15f;
+    float circleSize1 = 0.1f;
     float xCircle1 = 0.3f;
     float yCircle1 = 0.3f;
     float xSpeed1 = 0.0f;
     float ySpeed1 = -0.0001f;
     buildCircle(circleSize1, numTriangles, xCircle1, yCircle1, xSpeed1, ySpeed1);
 
-    float circleSize2 = 0.3f;
+    float circleSize2 = 0.1f;
     float xCircle2 = -0.2f;
     float yCircle2 = 0.6f;
     float xSpeed2 = -4.5f;
@@ -92,7 +94,6 @@ int main(){
 
     while(!glfwWindowShouldClose(window)){
         glfwPollEvents();
-
         //Frame rate
         currentTime = glfwGetTime();
         timeDiff = currentTime-previousTime;
@@ -103,10 +104,14 @@ int main(){
             int fpsInt = fps;
 
             std::string fpsString = std::to_string(fpsInt);
-            std::string newTitle = "Engine   "+ fpsString + "FPS";
+            std::string newTitle = "Engine   "+ fpsString + "FPS" + " | Balls: "+std::to_string(numCircles);
             glfwSetWindowTitle(window, newTitle.c_str());
             previousTime = currentTime;
             counter = 0;
+
+            if(newCircle){
+                buildCircle(circleSize2, numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
+            }
         }
 
         currentTimeG = glfwGetTime();
@@ -128,10 +133,6 @@ int main(){
         glfwSwapBuffers(window);
         
         GLenum err = glGetError();
-    
-        for(int i=0; i<numCircles; i++){
-            std::cout<<"Ball-"<<i<<" speed x:"<<speeds[2*i]<<" | speed y:"<<speeds[2*i+1]<<std::endl;
-        }
 
         if(err != GL_NO_ERROR){
             std::cout<<err<<std::endl;
@@ -284,16 +285,7 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type){
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods){
     if(button==GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
-        double x;
-        double y;
-        glfwGetCursorPos(window, &x, &y);
-        
-        float newCircleSize = 0.15f;
-        float newCircleSpeedX = 2.5f;
-        float newCircleSpeedY = -0.005f;
-        int numTriangles = 38;
-
-        buildCircle(newCircleSize, numTriangles, x, y, newCircleSpeedX, newCircleSpeedY);
+        newCircle = !newCircle;
     }
 }
 
