@@ -8,20 +8,20 @@
 
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
-void buildCircle(float radius, int count, float xUser, float yUser, float speed1, float speed2);
+void buildCircle(int count, float xUser, float yUser, float speed1, float speed2);
 void rebuildCenters(int count);
-void reBuildCircle(float radius, int count, float xUser, float yUser, int index);
+void reBuildCircle(int count, float xUser, float yUser, int index);
 void selectColor(float* red, float* blue, float speedX, float speedY);
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 std::vector<float> vertices;
 std::vector<float> speeds;
-std::vector<float> radiusArray;
 std::vector<float> centers;
 
 unsigned int numCircles;
 unsigned int numTriangles;
 bool newCircle;
+float radius = 0.01f;
 
 int main(){
     GLFWwindow* window;
@@ -50,19 +50,17 @@ int main(){
     numTriangles = 20;
     numCircles = 0;
 
-    float circleSize1 = 0.03f;
     float xCircle1 = 0.3f;
     float yCircle1 = 0.3f;
     float xSpeed1 = 0.0f;
     float ySpeed1 = -0.0001f;
-    buildCircle(circleSize1, numTriangles, xCircle1, yCircle1, xSpeed1, ySpeed1);
+    buildCircle(numTriangles, xCircle1, yCircle1, xSpeed1, ySpeed1);
 
-    float circleSize2 = 0.03f;
     float xCircle2 = 0.8f;
     float yCircle2 = 0.8f;
     float xSpeed2 = -4.5f;
     float ySpeed2 = -0.005f;
-    buildCircle(circleSize2, numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
+    buildCircle(numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
 
     unsigned int VBO, VAO;
 
@@ -112,7 +110,7 @@ int main(){
         }
 
         if(newCircle){
-            buildCircle(circleSize2, numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
+            buildCircle(numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
         }
 
         currentTimeG = glfwGetTime();
@@ -144,7 +142,6 @@ int main(){
 
     }   
 
-
     glDeleteProgram(shader);
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
@@ -153,8 +150,7 @@ int main(){
     return 0;
 }
 
-void buildCircle(float radius, int count, float xUser, float yUser, float speed1, float speed2){
-    radiusArray.push_back(radius);
+void buildCircle(int count, float xUser, float yUser, float speed1, float speed2){
     centers.push_back(xUser);
     centers.push_back(yUser);
 
@@ -188,7 +184,7 @@ void buildCircle(float radius, int count, float xUser, float yUser, float speed1
     }
     numCircles++;
 }
-void reBuildCircle(float radius, int count, float xUser, float yUser, int index){
+void reBuildCircle(int count, float xUser, float yUser, int index){
     float angle = 360.0f/count;
     int triangleCount = count-2;
 
@@ -220,7 +216,7 @@ void reBuildCircle(float radius, int count, float xUser, float yUser, int index)
 void rebuildCenters(int count){
     vertices.clear();
     for(int i=0; i<numCircles; i++){
-        reBuildCircle(radiusArray[i], count, centers[2*i], centers[2*i+1], i);
+        reBuildCircle(count, centers[2*i], centers[2*i+1], i);
     }
 }
 

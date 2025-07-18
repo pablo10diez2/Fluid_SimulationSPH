@@ -1,7 +1,7 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
-#include "globals.h"
+#include "config.h"
 
 void gravity(std::vector<float>& centers, int numCircles, std::vector<float>& speeds, float timeDiff);
 void isEdge(std::vector<float>& centers, int numCircles, std::vector<float>& speeds);

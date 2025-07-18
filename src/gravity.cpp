@@ -23,13 +23,13 @@ void gravity(std::vector<float>& centers, int numCircles, std::vector<float>& sp
 
 void isEdge(std::vector<float>& centers, int numCircles, std::vector<float>& speeds){
     for(int i=0; i<numCircles; i++){
-        float bottonY = centers[2*i+1]-radiusArray[i];
-        float bottonX = centers[2*i]-radiusArray[i];
-        float topY = centers[2*i+1]+radiusArray[i];
-        float topX = centers[2*i]+radiusArray[i];
+        float bottonY = centers[2*i+1]-radius;
+        float bottonX = centers[2*i]-radius;
+        float topY = centers[2*i+1]+radius;
+        float topX = centers[2*i]+radius;
         
         if(bottonY<-0.999f){
-            centers[2*i+1] = -0.999f + radiusArray[i];
+            centers[2*i+1] = -0.999f + radius;
             if(std::abs(speeds[2*i+1]) < 0.25f){
                 speeds[2*i+1] = 0.0f;
             }else{
@@ -38,17 +38,17 @@ void isEdge(std::vector<float>& centers, int numCircles, std::vector<float>& spe
         }
 
         if(topY > 0.999f){
-            centers[2*i+1] = 0.999f - radiusArray[i];
+            centers[2*i+1] = 0.999f - radius;
             speeds[2*i+1] = -0.55f*speeds[2*i+1];
         }
 
         if(bottonX < -0.999f){
-            centers[2*i] = -0.999f+radiusArray[i];
+            centers[2*i] = -0.999f+radius;
             speeds[2*i] = -0.7f*speeds[2*i];
         }
 
         if(topX > 0.999f){
-            centers[2*i] = 0.999f - radiusArray[i];
+            centers[2*i] = 0.999f - radius;
             speeds[2*i] = -0.7f*speeds[2*i];        
         }
     }
@@ -59,7 +59,7 @@ float getDistance(std::vector<float>& centers, int circle1, int circle2){
     float dy = centers[2*circle2+1] - centers[2*circle1+1];
     float distance = std::sqrt( pow(dx,2) + pow(dy,2) );
 
-    return distance-radiusArray[circle1]-radiusArray[circle2];
+    return distance-radius*2;
 }
 
 void ballCollisions(std::vector<float>& centers, int numCircles, std::vector<float>& speeds){
@@ -113,7 +113,7 @@ void resolveCollision(std::vector<float>& centers, int index1, int index2, std::
     speeds[2*index1+1] += j*ny;
     speeds[2*index2+1] -= j*ny;
 
-    float overlap = radiusArray[index1]+radiusArray[index2]-dist;
+    float overlap = radius*2-dist;
 
     if(overlap > 0){
         float correction = overlap/2.0f;
