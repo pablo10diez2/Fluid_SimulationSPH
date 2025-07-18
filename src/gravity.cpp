@@ -98,7 +98,7 @@ void resolveCollision(std::vector<float>& centers, int index1, int index2, std::
     float dist = std::sqrt(dx*dx + dy*dy);
     
     if(dist == 0.0f){
-        dist = 0.0001f;
+        dist = 0.000001f;
     }
 
     float nx = dx/dist;

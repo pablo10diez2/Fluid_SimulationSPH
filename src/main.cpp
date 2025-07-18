@@ -50,16 +50,16 @@ int main(){
     numTriangles = 20;
     numCircles = 0;
 
-    float circleSize1 = 0.1f;
+    float circleSize1 = 0.03f;
     float xCircle1 = 0.3f;
     float yCircle1 = 0.3f;
     float xSpeed1 = 0.0f;
     float ySpeed1 = -0.0001f;
     buildCircle(circleSize1, numTriangles, xCircle1, yCircle1, xSpeed1, ySpeed1);
 
-    float circleSize2 = 0.1f;
-    float xCircle2 = -0.2f;
-    float yCircle2 = 0.6f;
+    float circleSize2 = 0.03f;
+    float xCircle2 = 0.8f;
+    float yCircle2 = 0.8f;
     float xSpeed2 = -4.5f;
     float ySpeed2 = -0.005f;
     buildCircle(circleSize2, numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
@@ -109,17 +109,18 @@ int main(){
             previousTime = currentTime;
             counter = 0;
 
-            if(newCircle){
-                buildCircle(circleSize2, numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
-            }
+        }
+
+        if(newCircle){
+            buildCircle(circleSize2, numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
         }
 
         currentTimeG = glfwGetTime();
         timeDiffG = currentTimeG - previousTimeG;
 
-        ballCollisions(centers, numCircles, speeds);
         gravity(centers, numCircles, speeds, timeDiffG);
         isEdge(centers, numCircles, speeds);
+        ballCollisions(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
         
