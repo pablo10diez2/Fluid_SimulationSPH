@@ -20,7 +20,6 @@ std::vector<float> radiusArray;
 std::vector<float> centers;
 
 unsigned int numCircles;
-bool newCircle;
 
 int main(){
     GLFWwindow* window;
@@ -92,17 +91,6 @@ int main(){
     int numTrianglesReal = numTriangles-2;
 
     while(!glfwWindowShouldClose(window)){
-        if(newCircle){
-            float newCircleSize = 0.15f;
-            float newCircleX = 0.0f;
-            float newCircleY = 0.8f;
-            float newCircleSpeedX = 2.5f;
-            float newCircleSpeedY = -0.005f;
-
-            buildCircle(newCircleSize, numTriangles, newCircleX, newCircleY, newCircleSpeedX, newCircleSpeedY);
-            newCircle = false;
-        }
-
         glfwPollEvents();
 
         //Frame rate
@@ -296,7 +284,16 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type){
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods){
     if(button==GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
-        newCircle = true;
+        double x;
+        double y;
+        glfwGetCursorPos(window, &x, &y);
+        
+        float newCircleSize = 0.15f;
+        float newCircleSpeedX = 2.5f;
+        float newCircleSpeedY = -0.005f;
+        int numTriangles = 38;
+
+        buildCircle(newCircleSize, numTriangles, x, y, newCircleSpeedX, newCircleSpeedY);
     }
 }
 
