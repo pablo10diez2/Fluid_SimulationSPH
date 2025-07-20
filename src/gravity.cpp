@@ -1,5 +1,4 @@
 #include "gravity.h"
-#include <cmath>
 
 std::vector<float> center;
 

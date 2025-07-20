@@ -5,10 +5,12 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include "gravity.h"
+#include "fluid.h"
 
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
 void buildCircle(int count, float xUser, float yUser, float speed1, float speed2);
+void buildRectangle(float xUser, float yUser);
 void rebuildCenters(int count);
 void reBuildCircle(int count, float xUser, float yUser, int index);
 void selectColor(float* red, float* blue, float speedX, float speedY);
@@ -17,11 +19,15 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 std::vector<float> vertices;
 std::vector<float> speeds;
 std::vector<float> centers;
+std::vector<float> densities;
+std::vector<float> pressures;
+std::vector<float> volumes;
 
 unsigned int numCircles;
 unsigned int numTriangles;
 bool newCircle;
 float radius = 0.01f;
+float mass  = 0.01f;
 
 int main(){
     GLFWwindow* window;
@@ -43,24 +49,27 @@ int main(){
         return -1;
     }
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
     unsigned int shader = make_shader("../src/shaders/vertex.txt", "../src/shaders/fragment.txt");
     
     numTriangles = 20;
     numCircles = 0;
-
-    float xCircle1 = 0.3f;
-    float yCircle1 = 0.3f;
-    float xSpeed1 = 0.0f;
-    float ySpeed1 = -0.0001f;
-    buildCircle(numTriangles, xCircle1, yCircle1, xSpeed1, ySpeed1);
-
-    float xCircle2 = 0.8f;
-    float yCircle2 = 0.8f;
-    float xSpeed2 = -4.5f;
-    float ySpeed2 = -0.005f;
-    buildCircle(numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
+    
+    float xCircle = 0.0f;
+    float yCircle = 0.8f;
+    float xSpeed = 0.0f;
+    float ySpeed = 0.0f;
+    
+    for(int i = 0; i<30; i++){
+        float yCircle = 0.8f;
+        for(int j = 0; j<6; j++){
+            buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
+            buildCircle(numTriangles, -xCircle, yCircle, xSpeed, ySpeed);
+            yCircle -= 1.0f/6.0f;
+        }
+        xCircle += 1.0f/30.0f;
+    }
 
     unsigned int VBO, VAO;
 
@@ -110,7 +119,7 @@ int main(){
         }
 
         if(newCircle){
-            buildCircle(numTriangles, xCircle2, yCircle2, xSpeed2, ySpeed2);
+            buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
         }
 
         currentTimeG = glfwGetTime();
@@ -118,7 +127,7 @@ int main(){
 
         gravity(centers, numCircles, speeds, timeDiffG);
         isEdge(centers, numCircles, speeds);
-        ballCollisions(centers, numCircles, speeds);
+        //ballCollisions(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
         
@@ -299,4 +308,8 @@ void selectColor(float* red, float* blue, float speedX, float speedY){
         *red = eq/2;
         *blue = 2*(1-eq);
     }
+}
+
+void buildRectangle(float xUser, float yUser){
+    centers.push_back(xUser);
 }
