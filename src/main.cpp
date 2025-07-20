@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include "gravity.h"
+#include <unordered_map>
 #include "fluid.h"
 
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
@@ -23,11 +24,14 @@ std::vector<float> densities;
 std::vector<float> pressures;
 std::vector<float> volumes;
 
+std::unordered_map<float, std::vector<float>> neighbors;
+
 unsigned int numCircles;
 unsigned int numTriangles;
 bool newCircle;
 float radius = 0.01f;
 float mass  = 0.01f;
+float h = 2*radius;
 
 int main(){
     GLFWwindow* window;
@@ -127,6 +131,7 @@ int main(){
 
         gravity(centers, numCircles, speeds, timeDiffG);
         isEdge(centers, numCircles, speeds);
+        findNeighbors(1);
         //ballCollisions(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);

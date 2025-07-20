@@ -9,7 +9,9 @@ add_executable(engine
     src/main.cpp 
     src/glad.c
     src/gravity.cpp
-    src/gravity.h)
+    src/gravity.h
+    src/fluid.cpp
+    src/fluid.h)
 
 target_include_directories(engine PRIVATE dependencies)
 target_link_libraries(engine glfw OpenGL::GL)

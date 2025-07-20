@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 
 extern float radius;
+extern float h;
 
 #include <fstream>
 #include <sstream>

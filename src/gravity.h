@@ -1,3 +1,6 @@
+#ifndef GRAVITY_H_
+#define GRAVITY_H_
+
 #include <cmath>
 #include <vector>
 #include <iostream>
@@ -9,3 +12,5 @@ void ballCollisions(std::vector<float>& centers, int numCircles, std::vector<flo
 float getDistance(std::vector<float>& centers, int circle1, int circle2);
 bool checkCollision(std::vector<float>& centers, int index1, int index2);
 void resolveCollision(std::vector<float>& centers, int index1, int index2, std::vector<float>& speeds);
+
+#endif
