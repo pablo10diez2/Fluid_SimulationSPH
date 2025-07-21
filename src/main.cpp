@@ -65,7 +65,7 @@ int main(){
     float xSpeed = 0.0f;
     float ySpeed = 0.0f;
     
-    for(int i = 0; i<30; i++){
+    /*for(int i = 0; i<30; i++){
         float yCircle = 0.8f;
         for(int j = 0; j<6; j++){
             buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
@@ -74,6 +74,7 @@ int main(){
         }
         xCircle += 1.0f/30.0f;
     }
+    */
 
     unsigned int VBO, VAO;
 
@@ -123,7 +124,7 @@ int main(){
         }
 
         if(newCircle){
-            buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
+            buildCircle(numTriangles, 0.8, 0.8, -0.1, 0.0);
         }
 
         currentTimeG = glfwGetTime();
@@ -144,6 +145,10 @@ int main(){
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, vertices.size()/6);
         glfwSwapBuffers(window);
+
+        for(const auto& pair: grid){
+            std::cout<<"X:"<<pair.first.first<<" Y:"<<pair.first.second<<" values:"<<pair.second.size()<<std::endl;
+        }
         
         GLenum err = glGetError();
 
