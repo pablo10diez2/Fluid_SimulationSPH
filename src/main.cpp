@@ -24,7 +24,7 @@ std::vector<float> densities;
 std::vector<float> pressures;
 std::vector<float> volumes;
 
-std::unordered_map<float, std::vector<float>> neighbors;
+std::unordered_map<std::pair<int, int>, std::vector<float>, pairHash> grid;
 
 unsigned int numCircles;
 unsigned int numTriangles;
@@ -131,7 +131,7 @@ int main(){
 
         gravity(centers, numCircles, speeds, timeDiffG);
         isEdge(centers, numCircles, speeds);
-        findNeighbors(1);
+        findNeighbors(centers, grid);
         //ballCollisions(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);

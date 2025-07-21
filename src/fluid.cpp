@@ -1,6 +1,11 @@
 #include "fluid.h"
-#include <unordered_map>
 
-void findNeighbors(int index){
-    std::cout<<2*1.0f/h<<std::endl<<std::endl;;
+void findNeighbors(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<float>, pairHash>& grid){
+    grid.clear();
+    
+    for(int i=0; i<centers.size(); i++){
+        int ix = floor((1+centers[2*i])/h);
+        int iy = floor((1+centers[2*i+1])/h);
+        grid[{ix, iy}].push_back(i);
+    }
 }
