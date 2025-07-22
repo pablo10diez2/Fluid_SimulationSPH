@@ -24,7 +24,7 @@ std::vector<float> densities;
 std::vector<float> pressures;
 std::vector<float> volumes;
 
-std::unordered_map<std::pair<int, int>, std::vector<float>, pairHash> grid;
+std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash> grid;
 
 unsigned int numCircles;
 unsigned int numTriangles;
