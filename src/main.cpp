@@ -11,7 +11,6 @@
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
 void buildCircle(int count, float xUser, float yUser, float speed1, float speed2);
-void buildRectangle(float xUser, float yUser);
 void rebuildCenters(int count);
 void reBuildCircle(int count, float xUser, float yUser, int index);
 void selectColor(float* red, float* blue, float speedX, float speedY);
@@ -65,16 +64,15 @@ int main(){
     float xSpeed = 0.0f;
     float ySpeed = 0.0f;
     
-    /*for(int i = 0; i<30; i++){
+    for(int i = 0; i<30; i++){
         float yCircle = 0.8f;
         for(int j = 0; j<6; j++){
             buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
             buildCircle(numTriangles, -xCircle, yCircle, xSpeed, ySpeed);
-            yCircle -= 1.0f/6.0f;
+            yCircle -= 1.0f/15.0f;
         }
         xCircle += 1.0f/30.0f;
     }
-    */
 
     unsigned int VBO, VAO;
 
@@ -133,7 +131,6 @@ int main(){
         gravity(centers, numCircles, speeds, timeDiffG);
         isEdge(centers, numCircles, speeds);
         findNeighbors(centers, grid, numCircles);
-        //ballCollisions(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
         
@@ -147,11 +144,7 @@ int main(){
         glfwSwapBuffers(window);
 
         for(const auto& pair: grid){
-            std::cout<<"X:"<<pair.first.first<<" Y:"<<pair.first.second<<" values:"<<pair.second.size()<<std::endl;
-        }
-        
-        for(int i = 0; i<numCircles; i++){
-            std::cout<<"Circulo:"<<i<<" x:"<<centers[2*i]<<" y:"<<centers[2*i+1]<<std::endl;
+            std::cout<<"Pair->("<<pair.first.first<<", "<<pair.first.second<<")"<<" size:"<<pair.second.size()<<std::endl;
         }
 
         GLenum err = glGetError();
@@ -322,8 +315,4 @@ void selectColor(float* red, float* blue, float speedX, float speedY){
         *red = eq/2;
         *blue = 2*(1-eq);
     }
-}
-
-void buildRectangle(float xUser, float yUser){
-    centers.push_back(xUser);
 }
