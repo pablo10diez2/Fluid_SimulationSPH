@@ -17,7 +17,7 @@ void reBuildCircle(int count, float xUser, float yUser, int index);
 void selectColor(float* red, float* blue, float speedX, float speedY);
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
-std::vector<float> vertices;
+std::vector<float> vertices; 
 std::vector<float> speeds;
 std::vector<float> centers;
 std::vector<float> densities;
@@ -132,7 +132,7 @@ int main(){
 
         gravity(centers, numCircles, speeds, timeDiffG);
         isEdge(centers, numCircles, speeds);
-        findNeighbors(centers, grid);
+        findNeighbors(centers, grid, numCircles);
         //ballCollisions(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
@@ -150,6 +150,10 @@ int main(){
             std::cout<<"X:"<<pair.first.first<<" Y:"<<pair.first.second<<" values:"<<pair.second.size()<<std::endl;
         }
         
+        for(int i = 0; i<numCircles; i++){
+            std::cout<<"Circulo:"<<i<<" x:"<<centers[2*i]<<" y:"<<centers[2*i+1]<<std::endl;
+        }
+
         GLenum err = glGetError();
 
         if(err != GL_NO_ERROR){
