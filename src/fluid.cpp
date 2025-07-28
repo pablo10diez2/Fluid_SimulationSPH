@@ -10,7 +10,7 @@ void findNeighbors(std::vector<float>& centers, std::unordered_map<std::pair<int
     }
 }
 
-void findNextIndices(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::pair<int, int>& pair){
+std::vector<int> findNextIndices(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::pair<int, int>& pair, std::vector<int>& indices){
     std::vector<int> indices;
 
     for(int i=-1; i<2; i++){
@@ -26,5 +26,20 @@ void findNextIndices(std::vector<float>& centers, std::unordered_map<std::pair<i
                 }
             }
         }
+    }
+    return indices;
+}
+
+void calculateDensities(int numCircles){
+    for(int i=0; i<numCircles; i++){
+        float density = 0;
+        std::vector<int> neighbors = findNextIndices();
+        
+        for(int j; neighbors){
+            if(j != i){
+                density += 0; //implementar
+            }
+        }
+        densities.push_back(density);
     }
 }

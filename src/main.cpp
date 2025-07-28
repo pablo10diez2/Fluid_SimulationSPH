@@ -19,9 +19,6 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 std::vector<float> vertices; 
 std::vector<float> speeds;
 std::vector<float> centers;
-std::vector<float> densities;
-std::vector<float> pressures;
-std::vector<float> volumes;
 
 std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash> grid;
 
