@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "config.h"
+#include "gravity.h"
 #include <unordered_map>
 #include <vector>
 #include <cmath>
@@ -15,6 +16,10 @@ struct pairHash{
     }
 };
 
-std::vector<int> findNeighbors(std::vector<float>& centers, std::unordered_map<std::pair<int, int >, std::vector<int>, pairHash>& grid, int numCircles);
+void findNeighbors(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, int numCircles);
+
+std::vector<int> findNextIndices(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, int x, int y);
+
+float kernelPoly6(float distance);
 
 #endif
