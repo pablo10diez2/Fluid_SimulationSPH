@@ -10,7 +10,7 @@ void findNeighbors(std::vector<float>& centers, std::unordered_map<std::pair<int
     }
 }
 
-std::vector<int> findNextIndices(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, int x, int y){
+std::vector<int> findNextindices(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, int x, int y){
     std::vector<int> indices;
 
     for(int i=-1; i<2; i++){
@@ -30,7 +30,7 @@ std::vector<int> findNextIndices(std::vector<float>& centers, std::unordered_map
     return indices;
 }
 
-void calculateDensities(int numCircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid){
+void calculateDensities(int numCircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& densities){
     densities.resize(numCircles);
 
     for(int i=0; i<numCircles; i++){
@@ -38,9 +38,9 @@ void calculateDensities(int numCircles, std::vector<float>& centers, std::unorde
         int ix = floor((1+centers[2*i])/h);
         int iy = floor((1+centers[2*i+1])/h);
 
-        std::vector<int> neighbors = findNextIndices(centers, grid, ix, iy);
-        for(int j; neighbors){
-            float distance = getDistance();
+        std::vector<int> neighbors = findNextindices(centers, grid, ix, iy);
+        for(int j : neighbors){
+            float distance = getDistance(centers, i, j);
             density += kernelPoly6(distance);
         }
         densities[i] = density;

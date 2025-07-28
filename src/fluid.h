@@ -20,6 +20,8 @@ void findNeighbors(std::vector<float>& centers, std::unordered_map<std::pair<int
 
 std::vector<int> findNextIndices(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, int x, int y);
 
+void calculatedensities(int numcircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& densities);
+
 float kernelPoly6(float distance);
 
 #endif
