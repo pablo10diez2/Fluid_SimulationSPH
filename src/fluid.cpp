@@ -31,6 +31,7 @@ std::vector<int> findNextindices(std::vector<float>& centers, std::unordered_map
 }
 
 void calculateDensities(int numCircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& densities){
+
     densities.resize(numCircles);
 
     for(int i=0; i<numCircles; i++){

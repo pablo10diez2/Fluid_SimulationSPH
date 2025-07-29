@@ -19,6 +19,7 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 std::vector<float> vertices; 
 std::vector<float> speeds;
 std::vector<float> centers;
+std::vector<float> densities;
 
 std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash> grid;
 
@@ -96,8 +97,9 @@ int main(){
     float timeDiffG;
 
     unsigned int counter = 0;
-
     int numTrianglesReal = numTriangles-2;
+
+    glfwSwapInterval(0);
 
     while(!glfwWindowShouldClose(window)){
         glfwPollEvents();
@@ -128,6 +130,7 @@ int main(){
         gravity(centers, numCircles, speeds, timeDiffG);
         isEdge(centers, numCircles, speeds);
         findNeighbors(centers, grid, numCircles);
+        calculateDensities(numCircles, centers, grid, densities);
 
         rebuildCenters(numTrianglesReal);
         
@@ -139,10 +142,6 @@ int main(){
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, vertices.size()/6);
         glfwSwapBuffers(window);
-
-        for(const auto& pair: grid){
-            std::cout<<"Pair->("<<pair.first.first<<", "<<pair.first.second<<")"<<" size:"<<pair.second.size()<<std::endl;
-        }
 
         GLenum err = glGetError();
 
