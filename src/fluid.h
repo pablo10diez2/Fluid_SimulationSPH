@@ -17,11 +17,9 @@ struct pairHash{
 };
 
 void findNeighbors(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, int numCircles);
-
 std::vector<int> findNextIndices(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, int x, int y);
-
 void calculateDensities(int numcircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& densities);
-
+void calculatePressures(int numCircles, std::vector<float>& pressures, std::vector<float>& densities);
 float kernelPoly6(float distance);
 
 #endif

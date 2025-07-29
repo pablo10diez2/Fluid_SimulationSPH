@@ -48,6 +48,17 @@ void calculateDensities(int numCircles, std::vector<float>& centers, std::unorde
     }
 }
 
+void calculatePressures(int numCircles, std::vector<float>& pressures, std::vector<float>& densities){
+    const float k = 8;
+    const float restDensity = 1;
+
+    pressures.resize(numCircles);
+
+    for(int i=0; i<numCircles; i++){
+        pressures[i] = k*(densities[i]-restDensity);
+    }
+}
+
 float kernelPoly6(float distance){
     float result = 0;
     
