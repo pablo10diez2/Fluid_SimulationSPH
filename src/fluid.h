@@ -20,6 +20,9 @@ void findNeighbors(std::vector<float>& centers, std::unordered_map<std::pair<int
 std::vector<int> findNextIndices(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, int x, int y);
 void calculateDensities(int numcircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& densities);
 void calculatePressures(int numCircles, std::vector<float>& pressures, std::vector<float>& densities);
+void calculatePessureForce(int numCircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& pressureForces);
+
+std::vector<float> kernelSpikyDerived(float distance, int circle1, int circle2, std::vector<float>& centers);
 float kernelPoly6(float distance);
 
 #endif
