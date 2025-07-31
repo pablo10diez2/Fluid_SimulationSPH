@@ -21,6 +21,7 @@ std::vector<float> speeds;
 std::vector<float> centers;
 std::vector<float> densities;
 std::vector<float> pressures;
+std::vector<float> pressureForces;
 
 std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash> grid;
 
@@ -133,6 +134,7 @@ int main(){
         findNeighbors(centers, grid, numCircles);
         calculateDensities(numCircles, centers, grid, densities);
         calculatePressures(numCircles, pressures, densities);
+        calculatePressureForce(numCircles, centers, grid, pressureForces, pressures, densities);
 
         rebuildCenters(numTrianglesReal);
         

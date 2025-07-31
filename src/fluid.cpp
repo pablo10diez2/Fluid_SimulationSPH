@@ -59,7 +59,8 @@ void calculatePressures(int numCircles, std::vector<float>& pressures, std::vect
     }
 }
 
-void calculatePessureForce(int numCircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& pressureForces, std::vector<float>& pressures, std::vector<float>& densities){
+void calculatePressureForce(int numCircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& pressureForces, std::vector<float>& pressures, std::vector<float>& densities){
+    pressureForces.resize(centers.size());
     for(int i=0; i<numCircles; i++){
         std::vector<float> pressureForce(2, 0.0f);
 
@@ -67,9 +68,9 @@ void calculatePessureForce(int numCircles, std::vector<float>& centers, std::uno
         int iy = floor((1+centers[2*i+1])/h);
 
         std::vector<int> neighbors = findNextIndices(centers, grid, ix, iy); 
+
         for(int j: neighbors){
             float distance = getDistance(centers, i, j);
-
             std::vector<float> gradW = kernelSpikyDerived(distance, i, j, centers);
             float calc = (pressures[i]+pressures[j])/2*densities[j];
 
