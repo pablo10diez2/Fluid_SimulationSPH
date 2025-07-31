@@ -22,6 +22,7 @@ std::vector<float> centers;
 std::vector<float> densities;
 std::vector<float> pressures;
 std::vector<float> pressureForces;
+std::vector<float> viscosities;
 
 std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash> grid;
 
@@ -129,12 +130,15 @@ int main(){
         currentTimeG = glfwGetTime();
         timeDiffG = currentTimeG - previousTimeG;
 
-        gravity(centers, numCircles, speeds, timeDiffG);
-        isEdge(centers, numCircles, speeds);
+
         findNeighbors(centers, grid, numCircles);
         calculateDensities(numCircles, centers, grid, densities);
         calculatePressures(numCircles, pressures, densities);
         calculatePressureForce(numCircles, centers, grid, pressureForces, pressures, densities);
+        calculateViscosity(numCircles, viscosities, centers, grid, speeds, densities);
+        applyForces(numCircles, timeDiffG, centers, speeds, pressureForces, viscosities);
+        gravity(centers, numCircles, speeds, timeDiffG);
+        isEdge(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
         
