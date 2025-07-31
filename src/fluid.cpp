@@ -83,6 +83,27 @@ void calculatePressureForce(int numCircles, std::vector<float>& centers, std::un
     }
 }
 
+void calculateViscosity(int numCircles, std::vector<float>& viscosities, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& speeds, std::vector<float>& densities){
+    viscosities.resize(centers.size());
+
+    for(int i=0; i<numCircles; i++){
+        int ix = floor((1+centers[2*i])/h);
+        int iy = floor((1+centers[2*i+1])/h);
+        
+        std::vector<float> viscosity(2, 0.0f);
+
+        std::vector<int> neighbors = findNextIndices(centers, grid, ix, iy);
+        for(int j: neighbors){
+            float distance = getDistance(centers, i, j);
+
+            viscosity[0] += ((speeds[2*i]-speeds[2*j])/densities[i])*kernelViscosityLaplacian(distance);
+            viscosity[1] += ((speeds[2*i+1]-speeds[2*j+1])/densities[i])*kernelViscosityLaplacian(distance);
+        }
+        viscosities[2*i] = 0.05*viscosity[0];
+        viscosities[2*i+1] = 0.05*viscosity[1];
+    }
+}
+
 float kernelPoly6(float distance){
     if(distance > 0 && distance <= h){
         float result = (h*h)-(distance*distance);
@@ -107,4 +128,13 @@ std::vector<float> kernelSpikyDerived(float distance, int circle1, int circle2, 
     }
 
     return result;
+}
+
+float kernelViscosityLaplacian(float distance){
+    float result = 0.0f;
+    
+    if(distance>0 && distance<=h){
+        result = 45*(h-distance)/(M_PI*pow(h,6));
+        return result;
+    }return 0.0f;
 }
