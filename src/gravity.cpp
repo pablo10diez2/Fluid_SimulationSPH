@@ -32,7 +32,7 @@ void isEdge(std::vector<float>& centers, int numCircles, std::vector<float>& spe
             if(std::abs(speeds[2*i+1]) < 0.25f){
                 speeds[2*i+1] = 0.0f;
             }else{
-                speeds[2*i+1] = -0.55f * speeds[2*i+1];
+                speeds[2*i+1] = -0.55* speeds[2*i+1];
             }
         }
 

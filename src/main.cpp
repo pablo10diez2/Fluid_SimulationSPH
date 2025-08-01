@@ -6,6 +6,7 @@
 #include <vector>
 #include "gravity.h"
 #include <unordered_map>
+#include <map>
 #include "fluid.h"
 
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
@@ -25,12 +26,13 @@ std::vector<float> pressureForces;
 std::vector<float> viscosities;
 
 std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash> grid;
+std::unordered_map<std::pair<int, int>, float, pairHash> distances;
 
 unsigned int numCircles;
 unsigned int numTriangles;
 bool newCircle;
-float radius = 0.01f;
-float mass  = 0.01f;
+float radius = 0.005f;
+float mass  = 1.0f;
 float h = 2*radius;
 
 int main(){
@@ -62,19 +64,19 @@ int main(){
     
     float xCircle = 0.0f;
     float yCircle = 0.8f;
-    float xSpeed = 0.0f;
+    float xSpeed = 0.5f;
     float ySpeed = 0.0f;
-    
-    for(int i = 0; i<30; i++){
-        float yCircle = 0.8f;
-        for(int j = 0; j<6; j++){
-            buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
-            buildCircle(numTriangles, -xCircle, yCircle, xSpeed, ySpeed);
-            yCircle -= 1.0f/15.0f;
-        }
-        xCircle += 1.0f/30.0f;
-    }
 
+    for(int i=0; i<50; i++){
+        buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
+        xCircle += 0.02f;
+        yCircle = 0.8f;
+        for(int j=0; j<6; j++){
+            buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
+            yCircle -=0.02f;
+        }
+    }
+    
     unsigned int VBO, VAO;
 
     glGenVertexArrays(1, &VAO);
@@ -125,19 +127,20 @@ int main(){
 
         if(newCircle){
             buildCircle(numTriangles, 0.8, 0.8, -0.1, 0.0);
+            newCircle = false;
         }
 
         currentTimeG = glfwGetTime();
         timeDiffG = currentTimeG - previousTimeG;
 
-
         findNeighbors(centers, grid, numCircles);
+        searchDistances(distances, numCircles, centers, grid);
+
         calculateDensities(numCircles, centers, grid, densities);
         calculatePressures(numCircles, pressures, densities);
         calculatePressureForce(numCircles, centers, grid, pressureForces, pressures, densities);
         calculateViscosity(numCircles, viscosities, centers, grid, speeds, densities);
         applyForces(numCircles, timeDiffG, centers, speeds, pressureForces, viscosities);
-        gravity(centers, numCircles, speeds, timeDiffG);
         isEdge(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
