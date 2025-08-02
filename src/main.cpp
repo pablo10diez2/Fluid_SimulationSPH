@@ -136,10 +136,10 @@ int main(){
         findNeighbors(centers, grid, numCircles);
         searchDistances(distances, numCircles, centers, grid);
 
-        calculateDensities(numCircles, centers, grid, densities);
+        calculateDensities(numCircles, centers, grid, densities, distances);
         calculatePressures(numCircles, pressures, densities);
-        calculatePressureForce(numCircles, centers, grid, pressureForces, pressures, densities);
-        calculateViscosity(numCircles, viscosities, centers, grid, speeds, densities);
+        calculatePressureForce(numCircles, centers, grid, pressureForces, pressures, densities, distances);
+        calculateViscosity(numCircles, viscosities, centers, grid, speeds, densities, distances);
         applyForces(numCircles, timeDiffG, centers, speeds, pressureForces, viscosities);
         isEdge(centers, numCircles, speeds);
 
