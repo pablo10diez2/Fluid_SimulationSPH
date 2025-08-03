@@ -42,7 +42,7 @@ void searchDistances(std::unordered_map<std::pair<int, int>, float, pairHash>& d
 
 void calculateDensities(int numCircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& densities, std::unordered_map<std::pair<int, int>, float, pairHash>& distances){
 
-    densities.resize(numCircles);
+    densities.assign(numCircles, 0.0f);
 
     for(int i=0; i<numCircles; i++){
         float density = 0;
@@ -65,7 +65,7 @@ void calculatePressures(int numCircles, std::vector<float>& pressures, std::vect
     pressures.resize(numCircles);
 
     for(int i=0; i<numCircles; i++){
-        pressures[i] = k*(pow(densities[i]-restDensity, 7)-1);
+        pressures[i] = k*(densities[i]/restDensity-1.0f);
     }
 }
 
@@ -125,7 +125,7 @@ void applyForces(int numCircles, float timeDiffG, std::vector<float>& centers, s
     const float g = -9.8f;
 
     for(int i=0; i<numCircles; i++){
-        float fx = pressureForces[2*i] + viscosities[2*i] + (g/2);
+        float fx = pressureForces[2*i] + viscosities[2*i];
         float fy = pressureForces[2*i+1] + viscosities[2*i+1] + g;
 
         speeds[2*i] += fx*timeDiffG;
