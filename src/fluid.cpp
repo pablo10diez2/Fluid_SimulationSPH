@@ -1,5 +1,4 @@
 #include "fluid.h"
-
 void findNeighbors(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, int numCircles){
     grid.clear();
     
@@ -33,7 +32,10 @@ std::vector<int> findNextIndices(std::vector<float>& centers, std::unordered_map
 void searchDistances(std::unordered_map<std::pair<int, int>, float, pairHash>& distances, int numCircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid){
     distances.clear();
     for(int i=0; i<numCircles; i++){
-        std::vector<int> neighbors = findNextIndices(centers, grid, centers[2*i], centers[2*i+1]); 
+        int ix = floor((1+centers[2*i])/h);
+        int iy = floor((1+centers[2*i+1])/h);
+
+        std::vector<int> neighbors = findNextIndices(centers, grid, ix, iy); 
         for(int j: neighbors){
             distances[{i, j}] = getDistance(centers, i, j);
         }
@@ -51,7 +53,12 @@ void calculateDensities(int numCircles, std::vector<float>& centers, std::unorde
 
         std::vector<int> neighbors = findNextIndices(centers, grid, ix, iy);
         for(int j : neighbors){
-            float distance = distances[{i, j}];
+            float distance;
+            if(i==j){
+                distance = 0.0f;
+            }else{
+                distance = distances[{i, j}];
+            }
             density += kernelPoly6(distance);
         }
         densities[i] = density;
@@ -59,7 +66,7 @@ void calculateDensities(int numCircles, std::vector<float>& centers, std::unorde
 }
 
 void calculatePressures(int numCircles, std::vector<float>& pressures, std::vector<float>& densities){
-    const float k = 2000.0f;
+    const float k = 1.0f;
     const float restDensity = 1000.0f;
 
     pressures.resize(numCircles);
@@ -70,7 +77,7 @@ void calculatePressures(int numCircles, std::vector<float>& pressures, std::vect
 }
 
 void calculatePressureForce(int numCircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& pressureForces, std::vector<float>& pressures, std::vector<float>& densities, std::unordered_map<std::pair<int, int>, float, pairHash>& distances){
-    const float epsilon = 1e-6f;
+    const float epsilon = 1e-4f;
 
     pressureForces.resize(centers.size());
     for(int i=0; i<numCircles; i++){
@@ -82,13 +89,15 @@ void calculatePressureForce(int numCircles, std::vector<float>& centers, std::un
         std::vector<int> neighbors = findNextIndices(centers, grid, ix, iy); 
 
         for(int j: neighbors){
-            float distance = distances[{i, j}];
-            std::vector<float> gradW = kernelSpikyDerived(distance, i, j, centers);
+            if(i != j){
+                float distance = distances[{i, j}];
+                std::vector<float> gradW = kernelSpikyDerived(distance, i, j, centers);
 
-            if(densities[j]>epsilon){
-                float calc = (pressures[i]+pressures[j])/(2*densities[j]);
-                pressureForce[0] += calc * gradW[0];
-                pressureForce[1] += calc * gradW[1];
+                if(densities[j]>epsilon){
+                    float calc = (pressures[i]+pressures[j])/(2*densities[j]);
+                    pressureForce[0] += calc * gradW[0];
+                    pressureForce[1] += calc * gradW[1];
+                }
             }
         }
         
@@ -109,24 +118,27 @@ void calculateViscosity(int numCircles, std::vector<float>& viscosities, std::ve
 
         std::vector<int> neighbors = findNextIndices(centers, grid, ix, iy);
         for(int j: neighbors){
-            float distance = distances[{i, j}];
+            if(i!=j){
+                float distance = distances[{i, j}];
             
-            if(densities[i]>epsilon){
-                viscosity[0] += ((speeds[2*i]-speeds[2*j])/densities[i])*kernelViscosityLaplacian(distance);
-                viscosity[1] += ((speeds[2*i+1]-speeds[2*j+1])/densities[i])*kernelViscosityLaplacian(distance);
+                if(densities[j]>epsilon){
+                    viscosity[0] += ((speeds[2*j]-speeds[2*i])/densities[j])*kernelViscosityLaplacian(distance);
+                    viscosity[1] += ((speeds[2*j+1]-speeds[2*i+1])/densities[j])*kernelViscosityLaplacian(distance);
+                }
             }
         }
-        viscosities[2*i] = 0.1*viscosity[0];
-        viscosities[2*i+1] = 0.1*viscosity[1];
+        viscosities[2*i] = 10.0f*viscosity[0];
+        viscosities[2*i+1] =10.0f*viscosity[1];
     }
 }
 
-void applyForces(int numCircles, float timeDiffG, std::vector<float>& centers, std::vector<float>& speeds, std::vector<float>& pressureForces, std::vector<float>& viscosities){
-    const float g = -9.8f;
+void applyForces(int numCircles, float timeDiffG, std::vector<float>& centers, std::vector<float>& speeds, std::vector<float>& pressureForces, std::vector<float>& viscosities, std::vector<float>& densities){
+    const float g = -0.98f;
 
     for(int i=0; i<numCircles; i++){
-        float fx = pressureForces[2*i] + viscosities[2*i];
-        float fy = pressureForces[2*i+1] + viscosities[2*i+1] + g;
+        float density = std::max(densities[i], 0.0001f);
+        float fx = (pressureForces[2*i] + viscosities[2*i])/density;
+        float fy = (pressureForces[2*i+1] + viscosities[2*i+1] + g)/density;
 
         speeds[2*i] += fx*timeDiffG;
         speeds[2*i+1] += fy*timeDiffG;
@@ -138,7 +150,7 @@ void applyForces(int numCircles, float timeDiffG, std::vector<float>& centers, s
 }
 
 float kernelPoly6(float distance){
-    if(distance > 0 && distance <= h){
+    if(distance >= 0 && distance <= h){
         float result = (h*h)-(distance*distance);
         result = pow(result, 3);
         result *= (315/(64*M_PI*pow(h, 9)));

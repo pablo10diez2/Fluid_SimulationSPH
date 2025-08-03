@@ -31,9 +31,9 @@ std::unordered_map<std::pair<int, int>, float, pairHash> distances;
 unsigned int numCircles;
 unsigned int numTriangles;
 bool newCircle;
-float radius = 0.01f;
+float radius = 0.02f;
 float mass  = 1.0f;
-float h = 2*radius;
+float h = 3.0f*radius;
 
 int main(){
     GLFWwindow* window;
@@ -62,16 +62,16 @@ int main(){
     numTriangles = 20;
     numCircles = 0;
     
-    float xCircle = 0.0f;
-    float yCircle = 0.8f;
+    float xCircle = -0.2f;
+    float yCircle = 0.1f;
     float xSpeed = 0.0f;
     float ySpeed = 0.0f;
 
-    for(int i=0; i<50; i++){
+    for(int i=0; i<30; i++){
         buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
         xCircle += 0.02f;
-        yCircle = 0.8f;
-        for(int j=0; j<6; j++){
+        yCircle = 0.1f;
+        for(int j=0; j<10; j++){
             buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
             yCircle -=0.02f;
         }
@@ -126,7 +126,12 @@ int main(){
         }
 
         if(newCircle){
-            buildCircle(numTriangles, 0.8, 0.8, -0.1, 0.0);
+            float x = 0.8f;
+            for(int i=0; i<10; i++){
+                x -=0.2f;
+                buildCircle(numTriangles, x, 0.8, -0.01, -0.04);
+            }
+
             newCircle = false;
         }
 
@@ -141,19 +146,11 @@ int main(){
         calculatePressureForce(numCircles, centers, grid, pressureForces, pressures, densities, distances);
         calculateViscosity(numCircles, viscosities, centers, grid, speeds, densities, distances);
         
-        applyForces(numCircles, timeDiffG, centers, speeds, pressureForces, viscosities);
+        applyForces(numCircles, timeDiffG, centers, speeds, pressureForces, viscosities, densities);
         isEdge(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
 
-        for(int i=0; i<numCircles; i++){
-            std::cout<<"Ball "<<i<<": ("<<centers[2*i]<<", "<<centers[2*i+1]<<")"<<std::endl;
-        }
-
-        for(const auto& p: grid){
-            std::cout<<"-("<<p.first.first<<", "<<p.first.second<<") has "<<p.second.size()<<" balls"<<std::endl;
-        }
-        
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
 

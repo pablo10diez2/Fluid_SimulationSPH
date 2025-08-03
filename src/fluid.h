@@ -25,6 +25,6 @@ std::vector<float> kernelSpikyDerived(float distance, int circle1, int circle2, 
 float kernelPoly6(float distance);
 void calculateViscosity(int numCircles, std::vector<float>& viscosities, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, std::vector<float>& speeds, std::vector<float>& densities, std::unordered_map<std::pair<int, int>, float, pairHash>& distances);
 float kernelViscosityLaplacian(float distance);
-void applyForces(int numCircles, float timeDiffG, std::vector<float>& centers, std::vector<float>& speeds, std::vector<float>& pressureForces, std::vector<float>& viscosities);
+void applyForces(int numCircles, float timeDiffG, std::vector<float>& centers, std::vector<float>& speeds, std::vector<float>& pressureForces, std::vector<float>& viscosities, std::vector<float>& densities);
 void searchDistances(std::unordered_map<std::pair<int, int>, float, pairHash>& distances, int numCircles, std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid);
 #endif
