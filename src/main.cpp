@@ -32,7 +32,7 @@ unsigned int numCircles;
 unsigned int numTriangles;
 bool newCircle;
 float radius = 0.02f;
-float mass  = 1.0f;
+float mass  = 2.5f;
 float h = 3.0f*radius;
 
 int main(){

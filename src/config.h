@@ -8,6 +8,7 @@
 
 extern float radius;
 extern float h;
+extern float mass;
 
 #include <fstream>
 #include <sstream>
