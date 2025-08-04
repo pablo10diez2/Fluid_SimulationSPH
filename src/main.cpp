@@ -67,13 +67,13 @@ int main(){
     float xSpeed = 0.0f;
     float ySpeed = 0.0f;
 
-    for(int i=0; i<30; i++){
+    for(int i=0; i<20; i++){
         buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
-        xCircle += 0.02f;
+        xCircle += 0.05f;
         yCircle = 0.1f;
-        for(int j=0; j<10; j++){
+        for(int j=0; j<5; j++){
             buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
-            yCircle -=0.02f;
+            yCircle -=0.05f;
         }
     }
     
@@ -104,7 +104,7 @@ int main(){
     unsigned int counter = 0;
     int numTrianglesReal = numTriangles-2;
 
-    glfwSwapInterval(0);
+    //glfwSwapInterval(0);
 
     while(!glfwWindowShouldClose(window)){
         glfwPollEvents();
