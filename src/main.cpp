@@ -62,16 +62,16 @@ int main(){
     numTriangles = 20;
     numCircles = 0;
     
-    float xCircle = -0.85f;
-    float yCircle = 0.1f;
+    float xCircle = -0.95f;
+    float yCircle = 0.5f;
     float xSpeed = 0.3f;
     float ySpeed = -0.1f;
 
     for(int i=0; i<20; i++){
         buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
         xCircle += 0.08f;
-        yCircle = 0.1f;
-        for(int j=0; j<10; j++){
+        yCircle = 0.5f;
+        for(int j=0; j<13; j++){
             buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
             yCircle -=0.08f;
         }
@@ -127,11 +127,10 @@ int main(){
 
         if(newCircle){
             float x = 0.8f;
-            for(int i=0; i<10; i++){
-                x -=0.2f;
+            for(int i=0; i<5; i++){
                 buildCircle(numTriangles, x, 0.8, -0.01, -0.04);
+                x -= 0.1;
             }
-
             newCircle = false;
         }
 

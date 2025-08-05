@@ -143,7 +143,7 @@ void calculateViscosity(int numCircles, std::vector<float>& viscosities, std::ve
 
 void applyForces(int numCircles, float timeDiffG, std::vector<float>& centers, std::vector<float>& speeds, std::vector<float>& pressureForces, std::vector<float>& viscosities, std::vector<float>& densities){
     const float g = -9.8f;
-    float dt = 0.086f;
+    float dt = 0.090f;
     
     for(int i=0; i<numCircles; i++){
         float density = std::max(densities[i], 0.0001f);
