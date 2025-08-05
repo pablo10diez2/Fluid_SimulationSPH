@@ -31,9 +31,9 @@ std::unordered_map<std::pair<int, int>, float, pairHash> distances;
 unsigned int numCircles;
 unsigned int numTriangles;
 bool newCircle;
-float radius = 0.02f;
-float mass  = 2.5f;
-float h = 3.0f*radius;
+float radius = 0.01f;
+float mass  = 1.0f;
+float h = 0.2f;
 
 int main(){
     GLFWwindow* window;
@@ -62,18 +62,18 @@ int main(){
     numTriangles = 20;
     numCircles = 0;
     
-    float xCircle = -0.2f;
+    float xCircle = -0.85f;
     float yCircle = 0.1f;
-    float xSpeed = 0.0f;
-    float ySpeed = 0.0f;
+    float xSpeed = 0.3f;
+    float ySpeed = -0.1f;
 
     for(int i=0; i<20; i++){
         buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
-        xCircle += 0.05f;
+        xCircle += 0.08f;
         yCircle = 0.1f;
-        for(int j=0; j<5; j++){
+        for(int j=0; j<10; j++){
             buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
-            yCircle -=0.05f;
+            yCircle -=0.08f;
         }
     }
     
@@ -201,7 +201,7 @@ void buildCircle(int count, float xUser, float yUser, float speed1, float speed2
     float red = 0.0f;
     float blue = 0.0f;
 
-    selectColor(&red, &blue, speed1, speed2);
+    //selectColor(&red, &blue, speed1, speed2);
 
     for(int i=0; i < triangleCount; i++){
         glm::vec3 v0 = temp[0];

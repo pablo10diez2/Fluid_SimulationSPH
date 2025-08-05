@@ -8,11 +8,12 @@
 #include <vector>
 #include <cmath>
 
-struct pairHash{
-    std::size_t operator()(const std::pair<int, int>& p) const {
-        std::size_t h1 = std::hash<int>()(p.first);
-        std::size_t h2 = std::hash<int>()(p.second);
-        return h1 ^ (h2 << 1);
+struct pairHash {
+    std::size_t operator()(const std::pair<int,int>& p) const {
+        std::size_t seed = 0;
+        seed ^= std::hash<int>()(p.first) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+        seed ^= std::hash<int>()(p.second) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+        return seed;
     }
 };
 

@@ -12,25 +12,25 @@ void isEdge(std::vector<float>& centers, int numCircles, std::vector<float>& spe
         if(bottonY<-1.0f){
             centers[2*i+1] = -1.0f + radius;
             if(std::abs(speeds[2*i+1]) < 0.25f){
-                speeds[2*i+1] = 0.0f;
+                speeds[2*i+1] *= -0.25f;
             }else{
-                speeds[2*i+1] *= -0.15f;
+                speeds[2*i+1] *= -0.25f;
             }
         }
 
         if(topY > 1.0f){
             centers[2*i+1] = 1.0f - radius;
-            speeds[2*i+1] = -0.15f*speeds[2*i+1];
+            speeds[2*i+1] = -0.25f*speeds[2*i+1];
         }
 
         if(bottonX < -1.0f){
             centers[2*i] = -1.0f+radius;
-            speeds[2*i] = -0.15f*speeds[2*i];
+            speeds[2*i] = -0.25f*speeds[2*i];
         }
 
         if(topX > 1.0f){
             centers[2*i] = 1.0f - radius;
-            speeds[2*i] = -0.15f*speeds[2*i];        
+            speeds[2*i] = -0.25f*speeds[2*i];        
         }
     }
 }
