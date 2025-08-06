@@ -14,7 +14,7 @@ unsigned int make_shader(const std::string& vertex_filepath, const std::string& 
 void buildCircle(int count, float xUser, float yUser, float speed1, float speed2);
 void rebuildCenters(int count);
 void reBuildCircle(int count, float xUser, float yUser, int index);
-void selectColor(float* red, float* blue, float speedX, float speedY);
+void selectColor(float* red, float* blue, float pressure);
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 std::vector<float> vertices; 
@@ -31,7 +31,7 @@ std::unordered_map<std::pair<int, int>, float, pairHash> distances;
 unsigned int numCircles;
 unsigned int numTriangles;
 bool newCircle;
-float radius = 0.01f;
+float radius = 0.02f;
 float mass  = 1.0f;
 float h = 0.2f;
 
@@ -42,8 +42,8 @@ int main(){
         std::cout<<"GLFW could not start";
     }
 
-    unsigned short windowSizeX = 500;
-    unsigned short windowSizeY = 500;
+    unsigned short windowSizeX = 700;
+    unsigned short windowSizeY = 700;
 
     window = glfwCreateWindow(windowSizeX, windowSizeY, "MyWindow", NULL, NULL);
     glfwMakeContextCurrent(window);
@@ -64,8 +64,8 @@ int main(){
     
     float xCircle = -0.95f;
     float yCircle = 0.5f;
-    float xSpeed = 0.3f;
-    float ySpeed = -0.1f;
+    float xSpeed = 0.15f;
+    float ySpeed = 0.0f;
 
     for(int i=0; i<20; i++){
         buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
@@ -149,6 +149,11 @@ int main(){
         isEdge(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
+    
+        for(int i=0; i<numCircles; i++){
+            std::cout<<"Density: "<<densities[i]<<std::endl;
+            std::cout<<"Pressure: "<<pressures[i]<<std::endl;
+        }
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
@@ -198,7 +203,7 @@ void buildCircle(int count, float xUser, float yUser, float speed1, float speed2
     }
 
     float red = 0.0f;
-    float blue = 0.0f;
+    float blue = 1.0f;
 
     //selectColor(&red, &blue, speed1, speed2);
 
@@ -227,9 +232,9 @@ void reBuildCircle(int count, float xUser, float yUser, int index){
     }
 
     float red = 0.0f;
-    float blue = 0.0f;
+    float blue = 1.0f;
 
-    selectColor(&red, &blue, speeds[2*index], speeds[2*index+1]);
+    //selectColor(&red, &blue, pressures[index]);
 
     for(int i=0; i < triangleCount; i++){
         glm::vec3 v0 = temp[0];
@@ -314,16 +319,15 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods){
     }
 }
 
-void selectColor(float* red, float* blue, float speedX, float speedY){
-    float totalSpeed = std::abs(speedX)+std::abs(speedY);
-    if(totalSpeed>1.0f){
+void selectColor(float* red, float* blue, float pressure){
+    if(pressure>1.0f){
         *red = 1.0f;
         *blue = 0.0f;
-    }else if(totalSpeed<-1.0f){
+    }else if(pressure<-1.0f){
         *red = 0.0f;
         *blue = 0.0f;
     }else{
-        float eq = (totalSpeed-(-1.0f))/(1.0f-(-1.0f));
+        float eq = (pressure-(-1.0f))/(1.0f-(-1.0f));
         *red = eq/2;
         *blue = 2*(1-eq);
     }

@@ -66,7 +66,7 @@ void calculateDensities(int numCircles, std::vector<float>& centers, std::unorde
 }
 
 void calculatePressures(int numCircles, std::vector<float>& pressures, std::vector<float>& densities){
-    const float k = 5.0f;
+    const float k = 1.0f;
     const float restDensity = 1000.0f;
 
     pressures.resize(numCircles);
@@ -136,14 +136,14 @@ void calculateViscosity(int numCircles, std::vector<float>& viscosities, std::ve
                 }
             }
         }
-        viscosities[2*i] = 6.0f*viscosity[0];
-        viscosities[2*i+1] = 6.0f*viscosity[1];
+        viscosities[2*i] = 10.0f*viscosity[0];
+        viscosities[2*i+1] = 10.0f*viscosity[1];
     }
 }
 
 void applyForces(int numCircles, float timeDiffG, std::vector<float>& centers, std::vector<float>& speeds, std::vector<float>& pressureForces, std::vector<float>& viscosities, std::vector<float>& densities){
     const float g = -9.8f;
-    float dt = 0.090f;
+    float dt = 0.16f;
     
     for(int i=0; i<numCircles; i++){
         float density = std::max(densities[i], 0.0001f);
