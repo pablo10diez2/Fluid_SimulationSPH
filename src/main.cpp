@@ -128,7 +128,7 @@ int main(){
         if(newCircle){
             float x = 0.8f;
             for(int i=0; i<5; i++){
-                buildCircle(numTriangles, x, 0.8, -0.01, -0.04);
+                buildCircle(numTriangles, x, 0.8, -0.01, -0.3);
                 x -= 0.1;
             }
             newCircle = false;
@@ -150,11 +150,6 @@ int main(){
 
         rebuildCenters(numTrianglesReal);
     
-        for(int i=0; i<numCircles; i++){
-            std::cout<<"Density: "<<densities[i]<<std::endl;
-            std::cout<<"Pressure: "<<pressures[i]<<std::endl;
-        }
-
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
 
@@ -193,6 +188,7 @@ void buildCircle(int count, float xUser, float yUser, float speed1, float speed2
     std::vector<glm::vec3> temp;
     speeds.push_back(speed1);
     speeds.push_back(speed2);
+
     for(int i=0; i<count; i++){
         float currentAngle = angle*i;
         float x = (radius * cos(glm::radians(currentAngle)))+xUser;
@@ -241,8 +237,8 @@ void reBuildCircle(int count, float xUser, float yUser, int index){
         glm::vec3 v1 = temp[i+1];
         glm::vec3 v2 = temp[i+2];
         vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, red, 0.0f, blue});
-        vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, red, 0.0f, blue});
-        vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, red, 0.0f, blue});
+        vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 0.0f, 0.0f});
+        vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 1.0f, 0.0f, blue});
     }
 }
 

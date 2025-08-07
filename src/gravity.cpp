@@ -4,33 +4,26 @@ std::vector<float> center;
 
 void isEdge(std::vector<float>& centers, int numCircles, std::vector<float>& speeds){
     for(int i=0; i<numCircles; i++){
-        float bottonY = centers[2*i+1]-radius;
-        float bottonX = centers[2*i]-radius;
-        float topY = centers[2*i+1]+radius;
-        float topX = centers[2*i]+radius;
+        int idx = 2*i;
+        float bottonY = centers[idx+1]-radius;
+        float bottonX = centers[idx]-radius;
+        float topY = centers[idx+1]+radius;
+        float topX = centers[idx]+radius;
         
         if(bottonY<-1.0f){
             centers[2*i+1] = -1.0f + radius;
-            if(std::abs(speeds[2*i+1]) < 0.25f){
-                speeds[2*i+1] *= -0.25f;
-            }else{
-                speeds[2*i+1] *= -0.25f;
-            }
-        }
-
-        if(topY > 1.0f){
-            centers[2*i+1] = 1.0f - radius;
-            speeds[2*i+1] = -0.25f*speeds[2*i+1];
+            speeds[idx+1] *= -0.25f;
+        }else if(topY>1.0f){
+            centers[idx+1] = 1.0f-radius;
+            speeds[idx+1] = -0.25f*speeds[idx+1];
         }
 
         if(bottonX < -1.0f){
-            centers[2*i] = -1.0f+radius;
-            speeds[2*i] = -0.25f*speeds[2*i];
-        }
-
-        if(topX > 1.0f){
-            centers[2*i] = 1.0f - radius;
-            speeds[2*i] = -0.25f*speeds[2*i];        
+            centers[idx] = -1.0f + radius;
+            speeds[idx] = -0.25f*speeds[idx];
+        }else if(topX>1.0f){
+            centers[idx] = 1.0f-radius;
+            speeds[idx] = -0.25f*speeds[idx];
         }
     }
 }
