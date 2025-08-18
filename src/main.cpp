@@ -16,6 +16,8 @@ void rebuildCenters(int count);
 void reBuildCircle(int count, float xUser, float yUser, int index);
 void selectColor(float* red, float* blue, float pressure);
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+void removeSquare();
+void buildSquare();
 
 std::vector<float> vertices; 
 std::vector<float> speeds;
@@ -31,6 +33,7 @@ std::unordered_map<std::pair<int, int>, float, pairHash> distances;
 unsigned int numCircles;
 unsigned int numTriangles;
 bool newCircle;
+
 float radius = 0.02f;
 float mass  = 1.0f;
 float h = 0.2f;
@@ -77,6 +80,8 @@ int main(){
         }
     }
     
+    buildSquare();
+
     unsigned int VBO, VAO;
 
     glGenVertexArrays(1, &VAO);
@@ -136,6 +141,8 @@ int main(){
 
         currentTimeG = glfwGetTime();
         timeDiffG = currentTimeG - previousTimeG;
+        
+        removeSquare();
 
         findNeighbors(centers, grid, numCircles);
         searchDistances(distances, numCircles, centers, grid);
@@ -149,6 +156,8 @@ int main(){
         isEdge(centers, numCircles, speeds);
 
         rebuildCenters(numTrianglesReal);
+
+        buildSquare();
     
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
@@ -240,6 +249,25 @@ void reBuildCircle(int count, float xUser, float yUser, int index){
         vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 0.0f, 0.0f});
         vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 1.0f, 0.0f, blue});
     }
+}
+
+void removeSquare(){
+    for(int i=0; i<18; i++){
+        vertices.pop_back();
+    }
+}
+
+void buildSquare(){
+    glm::vec3 v0 = glm::vec3(0.0f, 0.0f, 0.0f);
+
+    glm::vec3 v1 = glm::vec3(0.8f, 0.8f, 0.0f);
+
+    glm::vec3 v2 = glm::vec3(0.0f, 0.8f, 0.0f);
+
+    vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 1.0f, 0.0f, 0.5f});
+    vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 0.0f, 0.5f});
+    vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 1.0f, 0.0f, 0.5f});
+    
 }
 
 void rebuildCenters(int count){

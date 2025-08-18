@@ -1,4 +1,5 @@
 #include "fluid.h"
+
 void findNeighbors(std::vector<float>& centers, std::unordered_map<std::pair<int, int>, std::vector<int>, pairHash>& grid, int numCircles){
     grid.clear();
     
