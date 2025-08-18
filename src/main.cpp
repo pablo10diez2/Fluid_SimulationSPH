@@ -37,6 +37,7 @@ bool newCircle;
 float radius = 0.02f;
 float mass  = 1.0f;
 float h = 0.2f;
+float ySquare = 0.9f;
 
 int main(){
     GLFWwindow* window;
@@ -137,6 +138,7 @@ int main(){
                 x -= 0.1;
             }
             newCircle = false;
+            ySquare -= 0.1f;
         }
 
         currentTimeG = glfwGetTime();
@@ -153,7 +155,7 @@ int main(){
         calculateViscosity(numCircles, viscosities, centers, grid, speeds, densities, distances);
         
         applyForces(numCircles, timeDiffG, centers, speeds, pressureForces, viscosities, densities);
-        isEdge(centers, numCircles, speeds);
+        isEdge(centers, numCircles, speeds, ySquare);
 
         rebuildCenters(numTrianglesReal);
 
@@ -258,9 +260,9 @@ void removeSquare(){
 }
 
 void buildSquare(){
-    glm::vec3 v0 = glm::vec3(0.85f, -1.0f, 0.0f);
-    glm::vec3 v1 = glm::vec3(1.0f, 1.0f, 0.0f);
-    glm::vec3 v2 = glm::vec3(0.85f, 1.0f, 0.0f);
+    glm::vec3 v0 = glm::vec3(ySquare, -1.0f, 0.0f);
+    glm::vec3 v1 = glm::vec3(ySquare+0.1f, 1.0f, 0.0f);
+    glm::vec3 v2 = glm::vec3(ySquare, 1.0f, 0.0f);
 
     vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 1.0f, 0.0f, 0.5f});
     vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 0.0f, 0.5f});
