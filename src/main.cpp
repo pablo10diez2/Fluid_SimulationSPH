@@ -33,11 +33,12 @@ std::unordered_map<std::pair<int, int>, float, pairHash> distances;
 unsigned int numCircles;
 unsigned int numTriangles;
 bool newCircle;
+bool moveWave;
 
-float radius = 0.02f;
+float radius = 0.01f;
 float mass  = 1.0f;
 float h = 0.2f;
-float ySquare = 0.9f;
+float xSquare = 0.9f;
 
 int main(){
     GLFWwindow* window;
@@ -46,10 +47,12 @@ int main(){
         std::cout<<"GLFW could not start";
     }
 
-    unsigned short windowSizeX = 700;
-    unsigned short windowSizeY = 700;
+    unsigned short windowSizeX = 800;
+    unsigned short windowSizeY = 400;
 
     window = glfwCreateWindow(windowSizeX, windowSizeY, "MyWindow", NULL, NULL);
+    glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+
     glfwMakeContextCurrent(window);
 
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
@@ -63,7 +66,7 @@ int main(){
 
     unsigned int shader = make_shader("../src/shaders/vertex.txt", "../src/shaders/fragment.txt");
     
-    numTriangles = 20;
+    numTriangles = 10;
     numCircles = 0;
     
     float xCircle = -0.95f;
@@ -128,7 +131,6 @@ int main(){
             glfwSetWindowTitle(window, newTitle.c_str());
             previousTime = currentTime;
             counter = 0;
-
         }
 
         if(newCircle){
@@ -138,7 +140,7 @@ int main(){
                 x -= 0.1;
             }
             newCircle = false;
-            ySquare -= 0.1f;
+            xSquare -= 0.01f;
         }
 
         currentTimeG = glfwGetTime();
@@ -155,10 +157,20 @@ int main(){
         calculateViscosity(numCircles, viscosities, centers, grid, speeds, densities, distances);
         
         applyForces(numCircles, timeDiffG, centers, speeds, pressureForces, viscosities, densities);
-        isEdge(centers, numCircles, speeds, ySquare);
+        isEdge(centers, numCircles, speeds, xSquare);
 
         rebuildCenters(numTrianglesReal);
 
+        if(moveWave){
+            double xPos, yPos;
+            glfwGetCursorPos(window, &xPos, &yPos);
+            float xPos2 = -1+((xPos/800)*2);
+            xSquare = xPos2;
+            std::cout<<xSquare<<std::endl;
+            if(xSquare>0.9f){
+                xSquare = 0.9f;
+            }
+        }
         buildSquare();
     
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -260,9 +272,9 @@ void removeSquare(){
 }
 
 void buildSquare(){
-    glm::vec3 v0 = glm::vec3(ySquare, -1.0f, 0.0f);
-    glm::vec3 v1 = glm::vec3(ySquare+0.1f, 1.0f, 0.0f);
-    glm::vec3 v2 = glm::vec3(ySquare, 1.0f, 0.0f);
+    glm::vec3 v0 = glm::vec3(xSquare, -1.0f, 0.0f);
+    glm::vec3 v1 = glm::vec3(xSquare+0.1f, 1.0f, 0.0f);
+    glm::vec3 v2 = glm::vec3(xSquare, 1.0f, 0.0f);
 
     vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 1.0f, 0.0f, 0.5f});
     vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 0.0f, 0.5f});
@@ -343,8 +355,12 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type){
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods){
     if(button==GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
-        newCircle = !newCircle;
+        moveWave = true;
+        //newCircle = !newCircle;
+    }else{
+        moveWave = false;
     }
+
 }
 
 void selectColor(float* red, float* blue, float pressure){
