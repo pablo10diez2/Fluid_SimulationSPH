@@ -35,7 +35,7 @@ unsigned int numTriangles;
 bool newCircle;
 bool moveWave;
 
-float radius = 0.01f;
+float radius = 0.015f;
 float mass  = 1.0f;
 float h = 0.2f;
 float xSquare = 0.9f;
@@ -47,11 +47,12 @@ int main(){
         std::cout<<"GLFW could not start";
     }
 
-    unsigned short windowSizeX = 800;
-    unsigned short windowSizeY = 400;
+    glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+
+    unsigned short windowSizeX = 1600;
+    unsigned short windowSizeY = 800;
 
     window = glfwCreateWindow(windowSizeX, windowSizeY, "MyWindow", NULL, NULL);
-    glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
 
     glfwMakeContextCurrent(window);
 
@@ -164,12 +165,8 @@ int main(){
         if(moveWave){
             double xPos, yPos;
             glfwGetCursorPos(window, &xPos, &yPos);
-            float xPos2 = -1+((xPos/800)*2);
-            xSquare = xPos2;
-            std::cout<<xSquare<<std::endl;
-            if(xSquare>0.9f){
-                xSquare = 0.9f;
-            }
+            float xPos2 = -1+((xPos/windowSizeX)*2);
+            xSquare = std::min(xPos2, 0.9f);
         }
         buildSquare();
     
