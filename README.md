@@ -2,7 +2,7 @@
 
 <p align="center">
   Click in the image to see the video:<br><br>
-  <a href="https://youtu.be/CoBPU2ZhPSc" target="_blank">
+  <a href="https://youtu.be/VCD6XW27OMg" target="_blank">
     <img src="https://i.imgur.com/cNcEIil.png" width="400" alt="Watch the video"/>
   </a>
 </p>
