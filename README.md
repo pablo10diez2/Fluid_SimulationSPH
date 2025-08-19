@@ -3,7 +3,7 @@
 <p align="center">
   Click in the image to see the video:<br><br>
   <a href="https://youtu.be/CoBPU2ZhPSc" target="_blank">
-    <img src="https://i.imgur.com/v9tAsWX.png" width="400" alt="Watch the video"/>
+    <img src="https://imgur.com/a/asT1ZEE" width="400" alt="Watch the video"/>
   </a>
 </p>
 
