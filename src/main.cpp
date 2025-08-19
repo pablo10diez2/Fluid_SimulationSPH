@@ -67,7 +67,7 @@ int main(){
 
     unsigned int shader = make_shader("../src/shaders/vertex.txt", "../src/shaders/fragment.txt");
     
-    numTriangles = 10;
+    numTriangles = 12;
     numCircles = 0;
     
     float xCircle = -0.95f;
@@ -135,10 +135,10 @@ int main(){
         }
 
         if(newCircle){
-            float x = 0.8f;
+            float x = -0.8f;
             for(int i=0; i<5; i++){
                 buildCircle(numTriangles, x, 0.8, -0.01, -0.3);
-                x -= 0.1;
+                x += 0.1;
             }
             newCircle = false;
             xSquare -= 0.01f;
@@ -247,18 +247,15 @@ void reBuildCircle(int count, float xUser, float yUser, int index){
         temp.push_back(glm::vec3(x,y,z));
     }
 
-    float red = 0.0f;
-    float blue = 1.0f;
-
     //selectColor(&red, &blue, pressures[index]);
 
     for(int i=0; i < triangleCount; i++){
         glm::vec3 v0 = temp[0];
         glm::vec3 v1 = temp[i+1];
         glm::vec3 v2 = temp[i+2];
-        vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, red, 0.0f, blue});
-        vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 0.0f, 0.0f});
-        vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 1.0f, 0.0f, blue});
+        vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 0.2f, 0.0f, 1.0f});
+        vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 0.2f, 0.0f, 1.0f});
+        vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 0.2f, 0.0f, 1.0f});
     }
 }
 
@@ -273,13 +270,13 @@ void buildSquare(){
     glm::vec3 v1 = glm::vec3(xSquare+0.1f, 1.0f, 0.0f);
     glm::vec3 v2 = glm::vec3(xSquare, 1.0f, 0.0f);
 
-    vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 1.0f, 0.0f, 0.5f});
-    vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 0.0f, 0.5f});
-    vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 1.0f, 0.0f, 0.5f});
+    vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 0.35f, 0.35f, 0.35f});
+    vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 0.35f, 0.35f, 0.35f});
+    vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 0.35f, 0.35f, 0.35f});
 
-    vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 1.0f, 0.0f, 0.5f});
-    vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 1.0f, 0.0f, 0.5f});
-    vertices.insert(vertices.end(), {v1.x, v0.y, v2.z, 1.0f, 0.0f, 0.5f});
+    vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 0.35f, 0.35f, 0.35f});
+    vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 0.35f, 0.35f, 0.35f});
+    vertices.insert(vertices.end(), {v1.x, v0.y, v2.z, 0.35f, 0.35f, 0.35f});
     
 }
 
@@ -353,7 +350,7 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type){
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods){
     if(button==GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
         moveWave = true;
-        //newCircle = !newCircle;
+        newCircle = !newCircle;
     }else{
         moveWave = false;
     }

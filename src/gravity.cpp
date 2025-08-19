@@ -23,7 +23,7 @@ void isEdge(std::vector<float>& centers, int numCircles, std::vector<float>& spe
             speeds[idx] = -0.25f*speeds[idx];
         }else if(topX>xSquare){
             centers[idx] = xSquare-radius;
-            speeds[idx] = -0.25f*speeds[idx];
+            speeds[idx] = -0.75f*speeds[idx];
         }
     }
 }
