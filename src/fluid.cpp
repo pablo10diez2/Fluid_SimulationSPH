@@ -137,8 +137,8 @@ void calculateViscosity(int numCircles, std::vector<float>& viscosities, std::ve
                 }
             }
         }
-        viscosities[2*i] = 8.0f*viscosity[0];
-        viscosities[2*i+1] = 8.0f*viscosity[1];
+        viscosities[2*i] = 10.0f*viscosity[0];
+        viscosities[2*i+1] = 10.0f*viscosity[1];
     }
 }
 

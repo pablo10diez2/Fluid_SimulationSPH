@@ -75,13 +75,13 @@ int main(){
     float xSpeed = 0.15f;
     float ySpeed = 0.0f;
 
-    for(int i=0; i<20; i++){
+    for(int i=0; i<15; i++){
         buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
-        xCircle += 0.08f;
+        xCircle += 0.1f;
         yCircle = 0.5f;
         for(int j=0; j<13; j++){
             buildCircle(numTriangles, xCircle, yCircle, xSpeed, ySpeed);
-            yCircle -=0.08f;
+            yCircle -=0.1f;
         }
     }
     
@@ -169,7 +169,7 @@ int main(){
             xSquare = std::min(xPos2, 0.9f);
         }
         buildSquare();
-    
+
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
 
@@ -253,9 +253,9 @@ void reBuildCircle(int count, float xUser, float yUser, int index){
         glm::vec3 v0 = temp[0];
         glm::vec3 v1 = temp[i+1];
         glm::vec3 v2 = temp[i+2];
-        vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 0.2f, 0.0f, 1.0f});
-        vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 0.2f, 0.0f, 1.0f});
-        vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 0.2f, 0.0f, 1.0f});
+        vertices.insert(vertices.end(), {v0.x, v0.y, v0.z, 0.5f, 0.0f, 1.0f});
+        vertices.insert(vertices.end(), {v1.x, v1.y, v1.z, 0.0f, 0.0f, 1.0f});
+        vertices.insert(vertices.end(), {v2.x, v2.y, v2.z, 0.0f, 0.0f, 1.0f});
     }
 }
 
