@@ -1,4 +1,5 @@
 ## Screenshots
+These screenshots show a real-time fluid simulation implemented with **Smoothed Particle Hydrodynamics (SPH)** and rendered using **OpenGL**.
 
 <p align="center">
   <img src="https://i.imgur.com/esVauR5.png" width="250" alt="Screenshot 1"/>
