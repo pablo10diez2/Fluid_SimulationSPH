@@ -1,3 +1,11 @@
+## Screenshots
+
+<p align="center">
+  <img src="https://i.imgur.com/esVauR5.png" width="250" alt="Screenshot 1"/>
+  <img src="https://i.imgur.com/QEBqjAK.png" width="250" alt="Screenshot 2"/>
+  <img src="https://i.imgur.com/DY9dLGP.png" width="250" alt="Screenshot 3"/>
+</p>
+
 ## 🎥 Demo 
 
 <p align="center">
